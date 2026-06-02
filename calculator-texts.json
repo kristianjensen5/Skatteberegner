@@ -1,0 +1,26 @@
+{
+  "eyebrow": "Skat",
+  "title": "Hvor meget får du i skattelettelse?",
+  "intro": "Indtast din årlige lønindkomst før skat og se den forventede skattelettelse om året og om måneden.",
+  "incomeLabel": "Årlig lønindkomst før skat",
+  "incomeHelp": "Skriv din samlede årsløn før skat. Hvis du kender din månedsløn, skal du gange den med 12. Beregneren trækker selv AM-bidrag fra.",
+  "incomeHint": "Skriv beløbet i kroner før AM-bidrag. Punktum og mellemrum er ok.",
+  "buttonLabel": "Beregn skattelettelse",
+  "resultsHeading": "Resultat",
+  "annualLabel": "Så meget får du i skattelettelser",
+  "annualDefaultMeta": "Om året",
+  "monthlyLabel": "Så meget får du hver måned",
+  "monthlyDefaultMeta": "Før eventuelle afrundinger i lønudbetaling",
+  "monthlyCalculatedMeta": "Skattelettelsen fordelt på 12 måneder",
+  "explainerTitle": "Sådan regner vi",
+  "explainerParagraphs": [
+    "Du skriver din årsløn før skat. Først trækker beregneren AM-bidrag fra ved at gange lønnen med 0,92, fordi skatte-grænserne er efter AM-bidrag.",
+    "Beregneren bygger på den foreløbige antagelse, at mellemskatten på 7,5 procent af indkomst mellem 641.200 og 777.900 kroner afskaffes, og at toptopskatten på 5 procent af indkomst over 2.592.700 kroner afskaffes. Vi antager samtidig, at topskatten på 15 procent af indkomst over 777.900 kroner fortsætter. Beløbet deles til sidst med 12 for at vise skattelettelsen pr. måned."
+  ],
+  "dataStatus": "Foreløbig beregning baseret på en antagelse om, at mellemskatten og toptopskatten afskaffes, mens topskatten består.",
+  "dataUpdatedPrefix": "Data er opdateret",
+  "dataUpdatedSuffix": "Beregningen er vejledende og bygger på en antagelse om, at mellemskatten og toptopskatten afskaffes, mens topskatten består.",
+  "annualMetaTemplate": "Ved en årsindkomst før skat på {income}",
+  "calculationNoteTemplate": "Beregningen bruger {incomeAfterAm} som indkomst efter AM-bidrag. Den antager, at mellemskatten på 7,5 pct. fra {middleTaxThreshold} til {topTaxThreshold} og toptopskatten på 5 pct. over {topTopTaxThreshold} fjernes, mens topskatten på 15 pct. over {topTaxThreshold} består.",
+  "incomeError": "Indtast en årsindkomst over 0 kr."
+}
