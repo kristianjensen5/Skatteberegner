@@ -15,11 +15,11 @@
   "explainerTitle": "Sådan regner vi",
   "explainerParagraphs": [
     "Du skriver din årsløn før skat. Først trækker beregneren AM-bidrag fra ved at gange lønnen med 0,92, fordi skatte-grænserne er efter AM-bidrag.",
-    "Beregneren tager udgangspunkt i et scenarie, hvor mellemskatten på 7,5 procent af indkomst mellem 641.200 og 777.900 kroner afskaffes, og hvor toptopskatten på 5 procent af indkomst over 2.592.700 kroner også afskaffes. I det nye system lægges der i stedet en topskat på 15 procentpoint på indkomst over 777.900 kroner oven i bundskat og kommuneskat. Da den øverste del allerede før udspillet var ramt af 7,5 procent mellemskat og 7,5 procent topskat, giver den nye topskat på 15 procentpoint ikke i sig selv en lettelse. Beløbet deles til sidst med 12 for at vise skattelettelsen pr. måned."
+    "Beregneren tager udgangspunkt i udspillet, hvor mellemskatten på 7,5 procent af indkomst mellem 641.200 og 777.900 kroner afskaffes, og hvor toptopskatten på 5 procent af indkomst over 2.592.700 kroner også afskaffes. I det nye system lægges der i stedet en topskat på 15 procentpoint på indkomst over 777.900 kroner oven i bundskat og kommuneskat. Da den øverste del allerede før udspillet var ramt af 7,5 procent mellemskat og 7,5 procent topskat, giver den nye topskat på 15 procentpoint ikke i sig selv en lettelse. Beløbet deles til sidst med 12 for at vise skattelettelsen pr. måned."
   ],
-  "dataStatus": "Vejledende beregning baseret på et scenarie, hvor mellemskatten og toptopskatten afskaffes, og den nye topskat er 15 procentpoint over 777.900 kr.",
+  "dataStatus": "Vejledende beregning baseret på udspillet, hvor mellemskatten og toptopskatten afskaffes, og den nye topskat er 15 procentpoint over 777.900 kr.",
   "dataUpdatedPrefix": "Data er opdateret",
-  "dataUpdatedSuffix": "Beregningen er vejledende og bygger på et scenarie, hvor mellemskatten og toptopskatten afskaffes, og den nye topskat er 15 procentpoint over 777.900 kr.",
+  "dataUpdatedSuffix": "Beregningen er vejledende og bygger på udspillet, hvor mellemskatten og toptopskatten afskaffes, og den nye topskat er 15 procentpoint over 777.900 kr.",
   "annualMetaTemplate": "Ved en årsindkomst før skat på {income}",
   "calculationNoteTemplate": "Beregningen bruger {incomeAfterAm} som indkomst efter AM-bidrag. Den medregner, at mellemskatten på 7,5 pct. fra {middleTaxThreshold} til {topTaxThreshold} og toptopskatten på 5 pct. over {topTopTaxThreshold} fjernes. Den nye topskat er sat til 15 procentpoint over {topTaxThreshold}.",
   "incomeError": "Indtast en årsindkomst over 0 kr."
