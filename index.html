@@ -303,11 +303,12 @@
 
         <section class="skb-explainer" aria-labelledby="skb-explainer-title">
           <h2 id="skb-explainer-title" class="skb-explainer__title">Sådan regner vi</h2>
-          <p class="skb-explainer__text">Du skriver din årsløn før skat. Først trækker beregneren AM-bidrag fra ved at gange lønnen med 0,92, fordi skatte-grænserne er efter AM-bidrag. Derefter beregner den den skat, der efter de foreløbige oplysninger forsvinder: 7,5 procent af indkomst mellem 641.200 og 777.900 kroner samt 5 procent af indkomst over 2.592.700 kroner. Beløbet deles til sidst med 12 for at vise skattelettelsen pr. måned.</p>
+          <p class="skb-explainer__text">Du skriver din årsløn før skat. Først trækker beregneren AM-bidrag fra ved at gange lønnen med 0,92, fordi skatte-grænserne er efter AM-bidrag.</p>
+          <p class="skb-explainer__text">Beregneren bygger på den foreløbige antagelse, at mellemskatten på 7,5 procent af indkomst mellem 641.200 og 777.900 kroner afskaffes, og at toptopskatten på 5 procent af indkomst over 2.592.700 kroner afskaffes. Vi antager samtidig, at topskatten på 15 procent af indkomst over 777.900 kroner fortsætter. Beløbet deles til sidst med 12 for at vise skattelettelsen pr. måned.</p>
         </section>
 
         <footer class="skb-disclaimer">
-          <p id="skb-data-status">Foreløbig beregning baseret på oplysninger om afskaffelse af mellemskat og toptopskat.</p>
+          <p id="skb-data-status">Foreløbig beregning baseret på en antagelse om, at mellemskatten og toptopskatten afskaffes, mens topskatten består.</p>
         </footer>
       </section>
     </main>
@@ -343,7 +344,7 @@
   });
 
   if (DATA_UPDATED && dataStatus) {
-    dataStatus.textContent = `Data er opdateret ${DATA_UPDATED}. Beregningen er vejledende.`;
+    dataStatus.textContent = `Data er opdateret ${DATA_UPDATED}. Beregningen er vejledende og bygger på en antagelse om, at mellemskatten og toptopskatten afskaffes, mens topskatten består.`;
   }
 
   if (!form || !incomeInput) return;
@@ -425,7 +426,7 @@
     if (annualMeta) annualMeta.textContent = `Ved en årsindkomst før skat på ${formatKr(income)}`;
     if (monthlyMeta) monthlyMeta.textContent = 'Skattelettelsen fordelt på 12 måneder';
     if (calculationNote) {
-      calculationNote.textContent = `Beregningen bruger ${formatKr(calculation.incomeAfterAm)} som indkomst efter AM-bidrag. Den medregner afskaffet mellemskat på 7,5 pct. fra ${formatKr(MIDDLE_TAX_THRESHOLD)} til ${formatKr(TOP_TAX_THRESHOLD)} og afskaffet toptopskat på 5 pct. over ${formatKr(TOP_TOP_TAX_THRESHOLD)}.`;
+      calculationNote.textContent = `Beregningen bruger ${formatKr(calculation.incomeAfterAm)} som indkomst efter AM-bidrag. Den antager, at mellemskatten på 7,5 pct. fra ${formatKr(MIDDLE_TAX_THRESHOLD)} til ${formatKr(TOP_TAX_THRESHOLD)} og toptopskatten på 5 pct. over ${formatKr(TOP_TOP_TAX_THRESHOLD)} fjernes, mens topskatten på 15 pct. over ${formatKr(TOP_TAX_THRESHOLD)} består.`;
     }
   });
 })();
