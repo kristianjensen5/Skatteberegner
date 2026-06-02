@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pensionsberegner</title>
+    <style>
+@font-face {
+  font-family: 'Flama-Extrabold-A';
+  src: url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.eot');
+  src:
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.eot?#iefix')
+      format('embedded-opentype'),
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.woff')
+      format('woff'),
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.ttf')
+      format('truetype'),
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.svg#svgFontName')
+      format('svg');
+  font-weight: normal; font-style: normal;
+}
+
+@font-face {
+  font-family: 'FlamaSemiCondensed';
+  src: url('https://politiken.dk/assets/fonts/flama/semicondensed/basic/FlamaSemicondensed-Basic-Pol.woff') format('woff');
+  font-weight: normal; font-style: normal;
+}
+
+:root {
+  --color-bg: #f8f5ef;
+  --color-surface: #ffffff;
+  --color-text: #1b1b1b;
+  --color-muted: #595959;
+  --color-border: #d9d2c7;
+  --color-current: #303030;
+  --color-socialdemokratiet: #f04d46;
+  --color-senior: #700a48;
+  --font-sans: 'FlamaSemiCondensed', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Flama-Extrabold-A', 'Helvetica Neue', Arial, sans-serif;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0; padding: 0;
+  font-family: var(--font-sans); color: var(--color-text);
+  background: radial-gradient(circle at 10% 15%, #e8e1d6 0, rgba(232, 225, 214, 0) 38%),
+              radial-gradient(circle at 90% 85%, #efe7d8 0, rgba(239, 231, 216, 0) 35%), var(--color-bg);
+  min-height: 100vh;
+}
+
+.app { width: min(740px, 100% - 2rem); margin: clamp(1rem, 4vw, 3rem) auto; }
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: clamp(1.2rem, 3vw, 2rem); box-shadow: 0 10px 24px rgba(40, 30, 20, 0.08); }
+
+.card__header { margin-bottom: 1.5rem; }
+.eyebrow { display: inline-block; margin: 0 0 0.5rem; padding: 0.25rem 0.55rem; border-radius: 999px; background: #f2ece1; color: #4d4235; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+h1, h2 { font-family: var(--font-serif); margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(1.6rem, 3.4vw, 2.25rem); }
+h2 { font-size: clamp(1.2rem, 2.6vw, 1.6rem); margin-bottom: 1rem; }
+
+.intro { margin: 0.75rem 0 0; color: var(--color-muted); max-width: 62ch; font-size: 1.05rem; line-height: 1.5; }
+
+.form { display: grid; gap: 1.2rem; margin-bottom: 2rem; }
+.field { display: grid; gap: 0.5rem; }
+label { font-weight: 600; }
+
+.label-with-tooltip { display: flex; align-items: center; gap: 0.5rem; }
+.tooltip-icon { display: inline-flex; align-items: center; justify-content: center; width: 1.3rem; height: 1.3rem; background-color: var(--color-border); color: var(--color-text); border-radius: 50%; font-size: 0.8rem; font-weight: bold; cursor: help; position: relative; }
+.tooltip-text { visibility: hidden; opacity: 0; width: 280px; background-color: var(--color-text); color: #fff; text-align: left; border-radius: 8px; padding: 1rem; position: absolute; z-index: 100; bottom: 150%; left: 50%; transform: translateX(-50%); transition: opacity 0.2s, visibility 0.2s; font-size: 0.9rem; font-weight: normal; line-height: 1.4; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+.tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: var(--color-text) transparent transparent transparent; }
+.tooltip-icon:hover .tooltip-text, .tooltip-icon:focus .tooltip-text { visibility: visible; opacity: 1; }
+
+.switch-field { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: #fdfaf5; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid var(--color-border); }
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--color-senior); }
+input:checked + .slider:before { transform: translateX(24px); }
+
+input[type="date"], input[type="number"] { width: 100%; border: 1px solid var(--color-border); border-radius: 10px; padding: 0.9rem 1rem; font: inherit; background: #fffdf9; -webkit-appearance: none; }
+input:focus { outline: 2px solid #87745b; outline-offset: 2px; }
+
+.btn { border: 0; border-radius: 10px; padding: 1rem; color: white; background: #2f261b; font: inherit; font-weight: 700; cursor: pointer; }
+.btn:active { transform: scale(0.98); }
+
+.error { margin: 0; color: #a40000; min-height: 1.2em; font-weight: 600; }
+
+.results { border-top: 1px solid var(--color-border); padding-top: 1.5rem; }
+.result-list { display: grid; gap: 1rem; }
+
+.result { border: 1px solid var(--color-border); border-radius: 12px; padding: 1.2rem; background: #fffefb; }
+.result[data-key='current'] { border-left: 6px solid var(--color-current); }
+.result[data-key='socialdemokratiet'] { border-left: 6px solid var(--color-socialdemokratiet); }
+.result[data-key='seniorpension'] { border-left: 6px solid var(--color-senior); display: none; }
+
+.result__header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.result__label { margin: 0; font-weight: 600; font-size: 1rem; flex: 1; min-width: 200px; }
+.result__value { margin: 0; font-family: var(--font-serif); font-size: 1.6rem; color: var(--color-text); }
+.result__meta { margin: 0.6rem 0 0; color: var(--color-muted); font-size: 0.92rem; line-height: 1.5; }
+.result__note { margin: 0.8rem 0 0; font-size: 0.85rem; font-style: italic; color: var(--color-muted); border-top: 1px solid #eee; padding-top: 0.5rem; }
+
+.disclaimer { margin-top: 1.5rem; border-top: 1px dashed var(--color-border); padding-top: 1rem; color: var(--color-muted); font-size: 0.85rem; line-height: 1.4; }
+
+@media (max-width: 600px) {
+  .app { width: 100%; margin: 0; }
+  .card { border-radius: 0; border-left: none; border-right: none; padding: 1.25rem 1rem; }
+  .result__header { flex-direction: row; align-items: flex-start; }
+  .result__value { font-size: 1.4rem; }
+  .result__label { min-width: 140px; font-size: 0.95rem; }
+}
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <section class="card" aria-labelledby="title">
+        <header class="card__header">
+          <p class="eyebrow">Folketingsvalg</p>
+          <h1 id="title">Hvornår kan du gå på pension?</h1>
+          <p class="intro">Indtast din fødselsdato og dit arbejdsliv for at se dine muligheder.</p>
+        </header>
+
+        <form id="calculator" class="form" novalidate>
+          <div class="field">
+            <label for="birthDate">Din fødselsdato</label>
+            <input id="birthDate" name="birthDate" type="date" required />
+          </div>
+
+          <div class="field">
+            <label for="startYear" class="label-with-tooltip">
+              År for første fuldtidsjob
+              <span class="tooltip-icon" tabindex="0" role="button" aria-haspopup="true" aria-describedby="startYear-tip">?
+                <span id="startYear-tip" class="tooltip-text" role="tooltip">
+                  Husk dine studiejobs! Hvis du arbejdede mindst 9 timer om ugen, har været i fleksjob, eller været på dagpenge/barsel, før du fik dit første 'rigtige' job, så tæller de år med.
+                </span>
+              </span>
+            </label>
+            <input id="startYear" name="startYear" type="number" min="1950" max="2026" placeholder="Fx 1989" required />
+          </div>
+
+          <div class="field">
+            <div class="switch-field">
+              <label for="healthSlider" style="font-size: 0.95rem; margin-bottom: 0;">Har en læge vurderet, at du har varigt nedsat arbejdsevne?</label>
+              <label class="switch">
+                <input type="checkbox" id="healthSlider">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn" type="submit">Beregn pensionsalder</button>
+          <p id="error" class="error" role="alert" aria-live="polite"></p>
+        </form>
+
+        <section class="results" aria-live="polite" aria-atomic="true">
+          <h2>Resultat</h2>
+          <div class="result-list">
+            
+            <article class="result" data-key="seniorpension">
+              <div class="result__header">
+                <p class="result__label">Mulighed for seniorpension</p>
+                <p class="result__value">-</p>
+              </div>
+              <p class="result__meta"></p>
+              <p class="result__note"></p>
+            </article>
+
+            <article class="result" data-key="current">
+              <div class="result__header">
+                <p class="result__label">Folkepensionsalder med de nuværende regler</p>
+                <p class="result__value">-</p>
+              </div>
+              <p class="result__meta"></p>
+              <p class="result__note"></p>
+            </article>
+            
+            <article class="result" data-key="socialdemokratiet">
+              <div class="result__header">
+                <p class="result__label">Pensionsalder med Socialdemokratiets forslag</p>
+                <p class="result__value">-</p>
+              </div>
+              <p class="result__meta"></p>
+              <p class="result__note"></p>
+            </article>
+          </div>
+        </section>
+
+        <footer class="disclaimer">
+          <p id="dataStatus"></p>
+          <p id="technicalNote" style="font-size: 0.8rem; margin-top: 1rem; color: #777;"></p>
+        </footer>
+      </section>
+    </main>
+
+    <script>
+(function () {
+  // Databasen er trukket direkte 1:1 fra Socialdemokratiets rå Excel-fil
+  // Format: [Årstal, Halvår, Nuværende FP, S-forslag FP, Nuværende Tidlig (Max), S-forslag Tidlig (Max)]
+  const PENSION_DB = [
+    [1950, 1, 65, 65, null, null],
+    [1954, 1, 65.5, 65.5, null, null],
+    [1954, 2, 66, 66, null, null],
+    [1955, 1, 66.5, 66.5, null, null],
+    [1955, 2, 67, 67, 64, 64],
+    [1963, 1, 68, 68, 65, 64],
+    [1967, 1, 69, 69, 66, 64],
+    [1971, 1, 70, 70, 67, 64],
+    [1975, 1, 71, 70.5, 68, 64.5],
+    [1979, 1, 71.5, 70.5, 68.5, 64.5],
+    [1979, 2, 71.5, 71, 68.5, 65],
+    [1983, 2, 72.5, 71, 69.5, 65],
+    [1984, 1, 72.5, 71.5, 69.5, 65.5],
+    [1987, 2, 73, 71.5, 70, 65.5],
+    [1992, 1, 73.5, 71.5, 70.5, 65.5],
+    [1993, 2, 73.5, 72, 70.5, 66],
+    [1996, 2, 74, 72, 71, 66],
+    [1998, 1, 74, 72.5, 71, 66],
+    [2001, 1, 74.5, 72.5, 71.5, 66],
+    [2005, 2, 75, 72.5, 72, 66],
+    [2007, 2, 75, 73, 72, 66],
+    [2010, 1, 75.5, 73, 72.5, 66],
+    [2014, 2, 76, 73, 73, 66],
+    [2017, 1, 76, 73.5, 73, 66],
+    [2019, 1, 76.5, 73.5, 73.5, 66],
+    [2021, 2, 76.5, 74, 73.5, 66],
+    [2023, 2, 77, 74, 74, 66]
+  ];
+
+  const form = document.getElementById('calculator');
+  const birthDateInput = document.getElementById('birthDate');
+  const startYearInput = document.getElementById('startYear');
+  const healthSlider = document.getElementById('healthSlider');
+  const errorNode = document.getElementById('error');
+  const statusNode = document.getElementById('dataStatus');
+  const techNode = document.getElementById('technicalNote');
+
+  const resultNodes = {
+    current: document.querySelector('[data-key=current]'),
+    socialdemokratiet: document.querySelector('[data-key=socialdemokratiet]'),
+    seniorpension: document.querySelector('[data-key=seniorpension]')
+  };
+
+  if (statusNode) {
+    statusNode.textContent = "Data er opdateret 6. marts 2026.";
+  }
+
+  if (!form) return;
+
+  function formatAge(age) {
+    if (age === null || isNaN(age)) return "-";
+    return Number.isInteger(age) ? `${age} år` : `${String(age).replace('.', ',')} år`;
+  }
+
+  // Slår direkte op i Excel-udtrækket baseret på halvår
+  function getRates(birthYear, birthMonth) {
+    const half = birthMonth <= 6 ? 1 : 2;
+    for (let i = PENSION_DB.length - 1; i >= 0; i--) {
+      const row = PENSION_DB[i];
+      if (birthYear > row[0] || (birthYear === row[0] && half >= row[1])) {
+         return { c_fp: row[2], s_fp: row[3], c_tp: row[4], s_tp: row[5] };
+      }
+    }
+    return { c_fp: 65, s_fp: 65, c_tp: null, s_tp: null };
+  }
+
+  function calculateResults(birthDate, startYear, isSick) {
+    const birthYear = birthDate.getFullYear();
+    if (isNaN(birthYear)) return;
+
+    const ageAtStart = startYear - birthYear;
+    if (startYear > new Date().getFullYear()) {
+      if (errorNode) errorNode.textContent = "Du kan ikke indtaste et startår, der endnu ikke er indtruffet.";
+      return;
+    }
+    if (ageAtStart < 14) {
+      if (errorNode) errorNode.textContent = "Det ser ud til, at dit startår ligger før din 14-års fødselsdag. Tjek venligst, om årstallet er korrekt.";
+      return;
+    }
+    if (errorNode) errorNode.textContent = "";
+
+    const rates = getRates(birthYear, birthDate.getMonth() + 1);
+
+    // Håndtering af Seniorpension (inkluderer realisme-buffer på -1 år)
+    if (isSick && resultNodes.seniorpension) {
+      const seniorAge = rates.c_fp ? rates.c_fp - 6 : null;
+      const targetYear = seniorAge ? birthYear + Math.floor(seniorAge) : null;
+      const workYearsForSenior = targetYear ? Math.max(0, targetYear - startYear - 1) : 0;
+
+      resultNodes.seniorpension.style.display = 'block';
+      const valNode = resultNodes.seniorpension.querySelector('.result__value');
+      const metaNode = resultNodes.seniorpension.querySelector('.result__meta');
+      const noteNode = resultNodes.seniorpension.querySelector('.result__note');
+      
+      if (valNode && metaNode && noteNode) {
+        if (workYearsForSenior >= 25) {
+          valNode.textContent = formatAge(seniorAge);
+          metaNode.textContent = "Hvis du bliver bevilget seniorpension, kan du gå på pension op til 6 år før din folkepensionsalder. Det kræver, at en læge har vurderet, at du har nedsat arbejdsevne på grund af dit helbred. Dit helbred skal være så påvirket, at du højst har kunnet arbejde 15 timer om ugen i dit seneste job. Ydelsen svarer til førtidspension.";
+        } else if (workYearsForSenior >= 20) {
+          valNode.textContent = formatAge(seniorAge);
+          metaNode.textContent = `Du har estimeret ${workYearsForSenior} års anciennitet. Da du har mellem 20 og 25 års anciennitet, kræver det en konkret vurdering af din tilknytning til arbejdsmarkedet, før du kan få seniorpension.`;
+        } else {
+          valNode.textContent = "Ikke muligt";
+          metaNode.textContent = `Seniorpension kræver som udgangspunkt mindst 25 års fuldtidsarbejde (20 år efter konkret vurdering). Du har i dag estimeret ${workYearsForSenior} år.`;
+        }
+        noteNode.textContent = "Du kan tidligst søge om seniorpension 6,5 år før din folkepensionsalder.";
+      }
+    } else if (resultNodes.seniorpension) {
+      resultNodes.seniorpension.style.display = 'none';
+    }
+
+    // NUVÆRENDE: Opgørelsesalder stiger med årgangen. Krav stiger med årgangen.
+    let c_opgAlder = 63; 
+    if (birthYear <= 1964) c_opgAlder = 61;
+    else if (birthYear <= 1968) c_opgAlder = 62;
+    // Realisme-buffer tilføjet (-1)
+    const c_anciennitet = Math.max(0, (birthYear + c_opgAlder) - startYear - 1);
+    let c_req = (birthYear <= 1964) ? 44 : (birthYear <= 1968) ? 45 : 46;
+
+    // SOCIALDEMOKRATIET: Opgørelsesalder fastfrosset til 61 år. Kravet for max fradrag er fastfrosset til 44 år.
+    const s_opgAlder = 61;
+    // Realisme-buffer tilføjet (-1)
+    const s_anciennitet = Math.max(0, (birthYear + s_opgAlder) - startYear - 1);
+    const s_req = 44; 
+
+    ['current', 'socialdemokratiet'].forEach(key => {
+      const node = resultNodes[key];
+      if (!node) return;
+      
+      const valNode = node.querySelector('.result__value');
+      const metaNode = node.querySelector('.result__meta');
+      const noteNode = node.querySelector('.result__note');
+      const labelNode = node.querySelector('.result__label');
+
+      if (!valNode || !metaNode || !noteNode || !labelNode) return;
+
+      if (key === 'current') {
+        const max_c_reduction = (rates.c_fp && rates.c_tp) ? rates.c_fp - rates.c_tp : 0;
+        const c_reduction = rates.c_tp ? Math.max(0, Math.min(max_c_reduction, c_anciennitet - (c_req - max_c_reduction))) : 0;
+        
+        valNode.textContent = formatAge(rates.c_fp);
+        labelNode.textContent = "Folkepensionsalder med de nuværende regler";
+
+        if (c_reduction > 0) {
+          metaNode.textContent = `Din anciennitet giver ret til ${c_reduction} års tidlig pension (Arne-pension), så du har mulighed for at trække dig tilbage, når du er ${formatAge(rates.c_fp - c_reduction)}.`;
+        } else {
+          metaNode.textContent = `Du har ikke optjent nok anciennitet til tidlig pension i den nuværende ordning. Din anciennitet er ${c_anciennitet} år, mens kravet for din årgang er mindst ${c_req - 2} år.`;
+        }
+        if (birthYear >= 1971) {
+          noteNode.textContent = "Bemærk: Der er endnu ikke formelt vedtaget regler for tidlig pension for årgange fra 1971 og frem, men beregningen tager udgangspunkt i, at ordningen videreføres.";
+        } else {
+          noteNode.textContent = "";
+        }
+      } else {
+        const max_s_reduction = (rates.s_fp && rates.s_tp) ? rates.s_fp - rates.s_tp : 0;
+        const s_reduction = rates.s_tp ? Math.max(0, Math.min(max_s_reduction, s_anciennitet - (s_req - max_s_reduction))) : 0;
+        const gain = (rates.c_fp && rates.s_fp) ? rates.c_fp - rates.s_fp : 0;
+        
+        let sMeta = [];
+        
+        if (s_reduction > 0) {
+          labelNode.textContent = "Pensionsalder med Socialdemokratiets forslag";
+          sMeta.push(`Med det nye forslag stiger pensionsalderen kun med et halvt år ad gangen. Din folkepensionsalder bliver derfor ${formatAge(rates.s_fp)}. Din anciennitet giver dog ret til en tidlig pension (Arne-pension), så du kan trække dig tilbage ${formatAge(s_reduction)} før tid, når du er ${formatAge(rates.s_fp - s_reduction)}. Socialdemokratiet foreslår desuden at hæve din månedlige ydelse med 3.000 kr. før skat.`);
+        } else {
+          labelNode.textContent = "Folkepensionsalder med Socialdemokratiets forslag";
+          if (gain > 0) {
+            sMeta.push(`Din nye folkepensionsalder er ${formatAge(rates.s_fp)}. Med det nye forslag stiger pensionsalderen kun med et halvt år ad gangen - derfor kan du gå ${formatAge(gain)} tidligere end med de nuværende regler. Du har ikke optjent nok anciennitet til at få tidlig pension. Din anciennitet er ${s_anciennitet} år.`);
+          } else {
+            sMeta.push(`Din folkepensionsalder er fortsat ${formatAge(rates.s_fp)}. Selvom det nye forslag bremser fremtidige stigninger i pensionsalderen, ændrer det ikke på alderen for din årgang. Du kan derfor ikke trække dig tilbage tidligere end med de nuværende regler. Du har heller ikke optjent nok anciennitet til at få tidlig pension (Arne-pension). Din anciennitet er ${s_anciennitet} år.`);
+          }
+        }
+
+        metaNode.textContent = sMeta.join(" ");
+        noteNode.textContent = "";
+        if (techNode) techNode.textContent = "Note: Beregneren giver et fingerpeg om din pensionsalder med de nuværende regler og med de politiske forslag, der er fremlagt i valgkampen. Resultatet er vejledende, og vi tager forbehold for fejl. Du kan finde din nuværende pensionsalder på borger.dk. De politiske forslag er ikke vedtaget.";
+        
+        valNode.textContent = formatAge(rates.s_fp - s_reduction);
+      }
+    });
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    if (!birthDateInput || !startYearInput) return;
+
+    const start = parseInt(startYearInput.value);
+    if (!birthDateInput.value || isNaN(start)) {
+      if (errorNode) errorNode.textContent = 'Udfyld venligst alle felter.';
+      return;
+    }
+    
+    const birth = new Date(birthDateInput.value);
+    calculateResults(birth, start, healthSlider ? healthSlider.checked : false);
+  });
+})();
+    </script>
+  </body>
+</html>

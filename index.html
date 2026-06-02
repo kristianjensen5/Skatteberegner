@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skattelettelsesberegner</title>
+    <style>
+@font-face {
+  font-family: 'SKB-Flama-Extrabold-A';
+  src: url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.eot');
+  src:
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.eot?#iefix')
+      format('embedded-opentype'),
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.woff')
+      format('woff'),
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.ttf')
+      format('truetype'),
+    url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.svg#svgFontName')
+      format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SKB-FlamaSemiCondensed';
+  src: url('https://politiken.dk/assets/fonts/flama/semicondensed/basic/FlamaSemicondensed-Basic-Pol.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.skb-calculator {
+  --skb-color-bg-pol-vibe: #f8f5ef;
+  --skb-color-surface-pol-vibe: #ffffff;
+  --skb-color-text-pol-vibe: #1b1b1b;
+  --skb-color-muted-pol-vibe: #5f5b55;
+  --skb-color-border-pol-vibe: #d9d2c7;
+  --skb-color-accent-pol-vibe: #8e1837;
+  --skb-color-accent-dark-pol-vibe: #2f261b;
+  --skb-color-soft-pol-vibe: #f2ece1;
+  --skb-font-sans-pol-vibe: 'SKB-FlamaSemiCondensed', 'Helvetica Neue', Arial, sans-serif;
+  --skb-font-display-pol-vibe: 'SKB-Flama-Extrabold-A', 'Helvetica Neue', Arial, sans-serif;
+  --skb-radius-pol-vibe: 8px;
+  box-sizing: border-box;
+  width: min(760px, 100% - 2rem);
+  margin: clamp(1rem, 4vw, 3rem) auto;
+  color: var(--skb-color-text-pol-vibe);
+  font-family: var(--skb-font-sans-pol-vibe);
+}
+
+.skb-calculator *,
+.skb-calculator *::before,
+.skb-calculator *::after {
+  box-sizing: border-box;
+}
+
+.skb-panel {
+  background: var(--skb-color-surface-pol-vibe);
+  border: 1px solid var(--skb-color-border-pol-vibe);
+  border-radius: var(--skb-radius-pol-vibe);
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.skb-panel__header { margin-bottom: 1.5rem; }
+
+.skb-eyebrow {
+  display: inline-block;
+  margin: 0 0 0.55rem;
+  padding: 0.25rem 0.55rem;
+  background: var(--skb-color-soft-pol-vibe);
+  color: #4d4235;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.skb-title,
+.skb-heading {
+  margin: 0;
+  font-family: var(--skb-font-display-pol-vibe);
+  line-height: 1.12;
+}
+
+.skb-title { font-size: clamp(1.65rem, 3.4vw, 2.35rem); }
+.skb-heading { font-size: clamp(1.2rem, 2.3vw, 1.55rem); }
+
+.skb-intro {
+  max-width: 62ch;
+  margin: 0.75rem 0 0;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.skb-form {
+  display: grid;
+  gap: 1.1rem;
+  margin-bottom: 1.7rem;
+}
+
+.skb-field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.skb-label {
+  font-weight: 700;
+}
+
+.skb-field-help {
+  max-width: 58ch;
+  margin: -0.15rem 0 0;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.skb-input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--skb-color-border-pol-vibe);
+  border-radius: var(--skb-radius-pol-vibe);
+  padding: 0.9rem 1rem;
+  background: #fffdf9;
+  color: var(--skb-color-text-pol-vibe);
+  font: inherit;
+  font-size: 1.1rem;
+}
+
+.skb-input:focus {
+  outline: 2px solid #876b58;
+  outline-offset: 2px;
+}
+
+.skb-hint {
+  margin: 0;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.skb-btn {
+  width: 100%;
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--skb-radius-pol-vibe);
+  padding: 0.9rem 1rem;
+  background: var(--skb-color-accent-dark-pol-vibe);
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.skb-btn:active { transform: scale(0.99); }
+
+.skb-error {
+  min-height: 1.2em;
+  margin: 0;
+  color: #a40000;
+  font-weight: 700;
+}
+
+.skb-results {
+  display: grid;
+  gap: 1rem;
+  border-top: 1px solid var(--skb-color-border-pol-vibe);
+  padding-top: 1.5rem;
+}
+
+.skb-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.skb-result {
+  min-height: 132px;
+  border: 1px solid var(--skb-color-border-pol-vibe);
+  border-left: 6px solid var(--skb-color-accent-pol-vibe);
+  border-radius: var(--skb-radius-pol-vibe);
+  padding: 1rem;
+  background: #fffefb;
+}
+
+.skb-result__label {
+  margin: 0 0 0.45rem;
+  color: var(--skb-color-muted-pol-vibe);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.skb-result__value {
+  margin: 0;
+  font-family: var(--skb-font-display-pol-vibe);
+  font-size: clamp(1.6rem, 5vw, 2.25rem);
+  line-height: 1.1;
+}
+
+.skb-result__meta {
+  margin: 0.6rem 0 0;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.skb-calculation-note {
+  margin: 0;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.skb-explainer {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+  border-top: 1px dashed var(--skb-color-border-pol-vibe);
+  padding-top: 1rem;
+}
+
+.skb-explainer__title {
+  margin: 0;
+  font-family: var(--skb-font-display-pol-vibe);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.skb-explainer__text {
+  margin: 0;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.skb-disclaimer {
+  margin-top: 1.5rem;
+  border-top: 1px dashed var(--skb-color-border-pol-vibe);
+  padding-top: 1rem;
+  color: var(--skb-color-muted-pol-vibe);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+.skb-disclaimer p { margin: 0; }
+
+@media (max-width: 640px) {
+  .skb-calculator {
+    width: 100%;
+    margin: 0;
+  }
+
+  .skb-panel {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  .skb-result-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <main class="skb-calculator">
+      <section class="skb-panel" aria-labelledby="skb-title">
+        <header class="skb-panel__header">
+          <p class="skb-eyebrow">Skat</p>
+          <h1 id="skb-title" class="skb-title">Hvor meget får du i skattelettelse?</h1>
+          <p class="skb-intro">Indtast din årlige lønindkomst før skat og se den forventede skattelettelse om året og om måneden.</p>
+        </header>
+
+        <form id="skb-calculator-form" class="skb-form" novalidate>
+          <div class="skb-field">
+            <label class="skb-label" for="skb-income">Årlig lønindkomst før skat</label>
+            <p class="skb-field-help">Skriv din samlede årsløn før skat. Hvis du kender din månedsløn, skal du gange den med 12. Beregneren trækker selv AM-bidrag fra.</p>
+            <input id="skb-income" class="skb-input" name="income" type="text" inputmode="numeric" autocomplete="off" placeholder="Fx 450.000" required />
+            <p class="skb-hint">Skriv beløbet i kroner før AM-bidrag. Punktum og mellemrum er ok.</p>
+          </div>
+
+          <button class="skb-btn" type="submit">Beregn skattelettelse</button>
+          <p id="skb-error" class="skb-error" role="alert" aria-live="polite"></p>
+        </form>
+
+        <section class="skb-results" aria-live="polite" aria-atomic="true">
+          <h2 class="skb-heading">Resultat</h2>
+          <div class="skb-result-grid">
+            <article class="skb-result">
+              <p class="skb-result__label">Så meget får du i skattelettelser</p>
+              <p id="skb-annual-result" class="skb-result__value">-</p>
+              <p id="skb-annual-meta" class="skb-result__meta">Om året</p>
+            </article>
+
+            <article class="skb-result">
+              <p class="skb-result__label">Så meget får du hver måned</p>
+              <p id="skb-monthly-result" class="skb-result__value">-</p>
+              <p id="skb-monthly-meta" class="skb-result__meta">Før eventuelle afrundinger i lønudbetaling</p>
+            </article>
+          </div>
+          <p id="skb-calculation-note" class="skb-calculation-note"></p>
+        </section>
+
+        <section class="skb-explainer" aria-labelledby="skb-explainer-title">
+          <h2 id="skb-explainer-title" class="skb-explainer__title">Sådan regner vi</h2>
+          <p class="skb-explainer__text">Du skriver din årsløn før skat. Først trækker beregneren AM-bidrag fra ved at gange lønnen med 0,92, fordi skatte-grænserne er efter AM-bidrag. Derefter beregner den den skat, der efter de foreløbige oplysninger forsvinder: 7,5 procent af indkomst mellem 641.200 og 777.900 kroner samt 5 procent af indkomst over 2.592.700 kroner. Beløbet deles til sidst med 12 for at vise skattelettelsen pr. måned.</p>
+        </section>
+
+        <footer class="skb-disclaimer">
+          <p id="skb-data-status">Foreløbig beregning baseret på oplysninger om afskaffelse af mellemskat og toptopskat.</p>
+        </footer>
+      </section>
+    </main>
+
+    <script>
+(function () {
+  /*
+    Foreloebige 2026-tal. Graenserne hos Skat er efter AM-bidrag.
+    Beregneren tager imod loen foer AM-bidrag og omregner derfor med 0,92.
+  */
+  const AM_BIDRAG_RATE = 0.08;
+  const MIDDLE_TAX_THRESHOLD = 641200;
+  const TOP_TAX_THRESHOLD = 777900;
+  const TOP_TOP_TAX_THRESHOLD = 2592700;
+  const MIDDLE_TAX_RATE = 0.075;
+  const TOP_TOP_TAX_RATE = 0.05;
+  const DATA_UPDATED = '2. juni 2026';
+
+  const form = document.getElementById('skb-calculator-form');
+  const incomeInput = document.getElementById('skb-income');
+  const errorNode = document.getElementById('skb-error');
+  const annualResult = document.getElementById('skb-annual-result');
+  const monthlyResult = document.getElementById('skb-monthly-result');
+  const annualMeta = document.getElementById('skb-annual-meta');
+  const monthlyMeta = document.getElementById('skb-monthly-meta');
+  const calculationNote = document.getElementById('skb-calculation-note');
+  const dataStatus = document.getElementById('skb-data-status');
+
+  const krFormatter = new Intl.NumberFormat('da-DK', {
+    style: 'currency',
+    currency: 'DKK',
+    maximumFractionDigits: 0
+  });
+
+  if (DATA_UPDATED && dataStatus) {
+    dataStatus.textContent = `Data er opdateret ${DATA_UPDATED}. Beregningen er vejledende.`;
+  }
+
+  if (!form || !incomeInput) return;
+
+  function parseDanishAmount(value) {
+    const cleaned = String(value)
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
+      .replace(/,/g, '.')
+      .replace(/[^\d.]/g, '');
+
+    return Number(cleaned);
+  }
+
+  function formatKr(value) {
+    return krFormatter.format(Math.round(value));
+  }
+
+  function formatInputAmount(value) {
+    const digits = String(value).replace(/\D/g, '');
+    if (!digits) return '';
+
+    return Number(digits).toLocaleString('da-DK');
+  }
+
+  function calculateAnnualRelief(incomeBeforeTax) {
+    const incomeAfterAm = incomeBeforeTax * (1 - AM_BIDRAG_RATE);
+    const removedMiddleTax = Math.max(
+      0,
+      Math.min(incomeAfterAm, TOP_TAX_THRESHOLD) - MIDDLE_TAX_THRESHOLD
+    ) * MIDDLE_TAX_RATE;
+    const removedTopTopTax = Math.max(0, incomeAfterAm - TOP_TOP_TAX_THRESHOLD) * TOP_TOP_TAX_RATE;
+
+    return {
+      annualRelief: removedMiddleTax + removedTopTopTax,
+      incomeAfterAm
+    };
+  }
+
+  function setError(message) {
+    if (errorNode) errorNode.textContent = message;
+  }
+
+  function resetResults() {
+    if (annualResult) annualResult.textContent = '-';
+    if (monthlyResult) monthlyResult.textContent = '-';
+    if (annualMeta) annualMeta.textContent = 'Om året';
+    if (monthlyMeta) monthlyMeta.textContent = 'Før eventuelle afrundinger i lønudbetaling';
+    if (calculationNote) calculationNote.textContent = '';
+  }
+
+  incomeInput.addEventListener('input', () => {
+    const formattedValue = formatInputAmount(incomeInput.value);
+    incomeInput.value = formattedValue;
+  });
+
+  incomeInput.addEventListener('blur', () => {
+    incomeInput.value = formatInputAmount(incomeInput.value);
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const income = parseDanishAmount(incomeInput.value);
+    if (!Number.isFinite(income) || income <= 0) {
+      resetResults();
+      setError('Indtast en årsindkomst over 0 kr.');
+      return;
+    }
+
+    setError('');
+
+    const calculation = calculateAnnualRelief(income);
+    const annualRelief = calculation.annualRelief;
+
+    const monthlyRelief = annualRelief / 12;
+    if (annualResult) annualResult.textContent = formatKr(annualRelief);
+    if (monthlyResult) monthlyResult.textContent = formatKr(monthlyRelief);
+    if (annualMeta) annualMeta.textContent = `Ved en årsindkomst før skat på ${formatKr(income)}`;
+    if (monthlyMeta) monthlyMeta.textContent = 'Skattelettelsen fordelt på 12 måneder';
+    if (calculationNote) {
+      calculationNote.textContent = `Beregningen bruger ${formatKr(calculation.incomeAfterAm)} som indkomst efter AM-bidrag. Den medregner afskaffet mellemskat på 7,5 pct. fra ${formatKr(MIDDLE_TAX_THRESHOLD)} til ${formatKr(TOP_TAX_THRESHOLD)} og afskaffet toptopskat på 5 pct. over ${formatKr(TOP_TOP_TAX_THRESHOLD)}.`;
+    }
+  });
+})();
+    </script>
+  </body>
+</html>
