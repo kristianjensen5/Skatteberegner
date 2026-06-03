@@ -268,15 +268,15 @@
         <header class="skb-panel__header">
           <p class="skb-eyebrow" data-skb-text="eyebrow">Skat</p>
           <h1 id="skb-title" class="skb-title" data-skb-text="title">Hvor meget får du i skattelettelse?</h1>
-          <p class="skb-intro" data-skb-text="intro">Indtast din årlige lønindkomst før skat og se den forventede skattelettelse om året og om måneden.</p>
+          <p class="skb-intro" data-skb-text="intro">Beregningen tager udgangspunkt i, at mellemskatten og toptopskatten afskaffes.</p>
         </header>
 
         <form id="skb-calculator-form" class="skb-form" novalidate>
           <div class="skb-field">
-            <label class="skb-label" for="skb-income" data-skb-text="incomeLabel">Årlig lønindkomst før skat</label>
-            <p class="skb-field-help" data-skb-text="incomeHelp">Skriv din samlede årsløn før skat. Hvis du kender din månedsløn, skal du gange den med 12. Beregneren trækker selv AM-bidrag fra.</p>
+            <label class="skb-label" for="skb-income" data-skb-text="incomeLabel">Din årsløn før skat</label>
+            <p class="skb-field-help" data-skb-text="incomeHelp">Skriv din bruttoløn for et helt år. Kender du månedslønnen, så gang den med 12.</p>
             <input id="skb-income" class="skb-input" name="income" type="text" inputmode="numeric" autocomplete="off" placeholder="Fx 450.000" required />
-            <p class="skb-hint" data-skb-text="incomeHint">Skriv beløbet i kroner før AM-bidrag. Punktum og mellemrum er ok.</p>
+            <p class="skb-hint" data-skb-text="incomeHint">Beregneren omregner automatisk efter AM-bidrag. Punktum og mellemrum er ok.</p>
           </div>
 
           <button class="skb-btn" type="submit" data-skb-text="buttonLabel">Beregn skattelettelse</button>
@@ -319,10 +319,10 @@
 {
   "eyebrow": "Skat",
   "title": "Hvor meget får du i skattelettelse?",
-  "intro": "Indtast din årlige lønindkomst før skat og se den forventede skattelettelse om året og om måneden.",
-  "incomeLabel": "Årlig lønindkomst før skat",
-  "incomeHelp": "Skriv din samlede årsløn før skat. Hvis du kender din månedsløn, skal du gange den med 12. Beregneren trækker selv AM-bidrag fra.",
-  "incomeHint": "Skriv beløbet i kroner før AM-bidrag. Punktum og mellemrum er ok.",
+  "intro": "Beregningen tager udgangspunkt i, at mellemskatten og toptopskatten afskaffes.",
+  "incomeLabel": "Din årsløn før skat",
+  "incomeHelp": "Skriv din bruttoløn for et helt år. Kender du månedslønnen, så gang den med 12.",
+  "incomeHint": "Beregneren omregner automatisk efter AM-bidrag. Punktum og mellemrum er ok.",
   "buttonLabel": "Beregn skattelettelse",
   "resultsHeading": "Resultat",
   "annualLabel": "Så meget får du i skattelettelser",
