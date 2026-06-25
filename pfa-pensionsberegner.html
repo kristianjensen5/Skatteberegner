@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hvad koster tidligere pension?</title>
+    <style>
+@font-face {
+  font-family: 'PFA-Calc-Flama-Extrabold';
+  src: url('https://politikenudvikling.s3.eu-west-1.amazonaws.com/flama800/Flama-Extrabold-A.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PFA-Calc-Flama-SemiCondensed';
+  src: url('https://politiken.dk/assets/fonts/flama/semicondensed/basic/FlamaSemicondensed-Basic-Pol.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.pfa-calc {
+  --pfa-calc-color-text-pol-vibe: #1b1b1b;
+  --pfa-calc-color-muted-pol-vibe: #5c5751;
+  --pfa-calc-color-border-pol-vibe: #d9d2c7;
+  --pfa-calc-color-surface-pol-vibe: #fff;
+  --pfa-calc-color-soft-pol-vibe: #f8f5ef;
+  --pfa-calc-color-accent-pol-vibe: #2f261b;
+  --pfa-calc-font-sans-pol-vibe: 'PFA-Calc-Flama-SemiCondensed', 'Helvetica Neue', Arial, sans-serif;
+  --pfa-calc-font-display-pol-vibe: 'PFA-Calc-Flama-Extrabold', 'Helvetica Neue', Arial, sans-serif;
+  --pfa-calc-radius-pol-vibe: 8px;
+  box-sizing: border-box;
+  width: min(900px, 100% - 2rem);
+  margin: clamp(1rem, 4vw, 3rem) auto;
+  color: var(--pfa-calc-color-text-pol-vibe);
+  font-family: var(--pfa-calc-font-sans-pol-vibe);
+}
+
+.pfa-calc *,
+.pfa-calc *::before,
+.pfa-calc *::after {
+  box-sizing: border-box;
+}
+
+.pfa-calc__panel {
+  border: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  border-radius: var(--pfa-calc-radius-pol-vibe);
+  background: var(--pfa-calc-color-surface-pol-vibe);
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.pfa-calc__header {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1.5rem;
+}
+
+.pfa-calc__title,
+.pfa-calc__heading,
+.pfa-calc__result-value {
+  margin: 0;
+  font-family: var(--pfa-calc-font-display-pol-vibe);
+  line-height: 1.1;
+}
+
+.pfa-calc__title {
+  font-size: clamp(1.75rem, 3.6vw, 2.55rem);
+}
+
+.pfa-calc__intro {
+  max-width: 64ch;
+  margin: 0;
+  color: var(--pfa-calc-color-muted-pol-vibe);
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.pfa-calc__form {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.pfa-calc__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pfa-calc__field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.pfa-calc__label {
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.pfa-calc__input {
+  width: 100%;
+  border: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  border-radius: var(--pfa-calc-radius-pol-vibe);
+  padding: 0.75rem 0.85rem;
+  background: #fffdf9;
+  color: var(--pfa-calc-color-text-pol-vibe);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.pfa-calc__input:focus {
+  outline: 2px solid #876b58;
+  outline-offset: 2px;
+}
+
+.pfa-calc__hint {
+  margin: 0;
+  color: var(--pfa-calc-color-muted-pol-vibe);
+  font-size: 0.88rem;
+  line-height: 1.32;
+}
+
+.pfa-calc__details {
+  border: 1px dashed var(--pfa-calc-color-border-pol-vibe);
+  border-radius: var(--pfa-calc-radius-pol-vibe);
+  padding: 1rem;
+  background: var(--pfa-calc-color-soft-pol-vibe);
+}
+
+.pfa-calc__summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.pfa-calc__assumptions {
+  margin-top: 1rem;
+}
+
+.pfa-calc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.pfa-calc__button {
+  min-height: 2.8rem;
+  border: 0;
+  border-radius: var(--pfa-calc-radius-pol-vibe);
+  padding: 0.75rem 1rem;
+  background: var(--pfa-calc-color-accent-pol-vibe);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.pfa-calc__button-secondary {
+  border: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  background: #fff;
+  color: var(--pfa-calc-color-text-pol-vibe);
+}
+
+.pfa-calc__error {
+  min-height: 1.2em;
+  margin: 0;
+  color: #a40000;
+  font-weight: 800;
+}
+
+.pfa-calc__results {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  padding-top: 1.5rem;
+}
+
+.pfa-calc__result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.pfa-calc__result {
+  min-height: 132px;
+  border: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  border-left: 6px solid var(--pfa-calc-color-accent-pol-vibe);
+  border-radius: var(--pfa-calc-radius-pol-vibe);
+  padding: 1rem;
+  background: #fffefb;
+}
+
+.pfa-calc__result-label {
+  margin: 0 0 0.5rem;
+  color: var(--pfa-calc-color-muted-pol-vibe);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.pfa-calc__result-value {
+  font-size: clamp(1.55rem, 4.5vw, 2.2rem);
+}
+
+.pfa-calc__result-meta {
+  margin: 0.55rem 0 0;
+  color: var(--pfa-calc-color-muted-pol-vibe);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.pfa-calc__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.pfa-calc__table th,
+.pfa-calc__table td {
+  border-bottom: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  padding: 0.55rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.pfa-calc__table td:last-child {
+  text-align: right;
+  font-weight: 800;
+}
+
+.pfa-calc__explainer {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+  border-top: 1px dashed var(--pfa-calc-color-border-pol-vibe);
+  padding-top: 1rem;
+}
+
+.pfa-calc__explainer p {
+  margin: 0;
+  color: var(--pfa-calc-color-muted-pol-vibe);
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .pfa-calc {
+    width: 100%;
+    margin: 0;
+  }
+
+  .pfa-calc__panel {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  .pfa-calc__grid,
+  .pfa-calc__result-grid {
+    grid-template-columns: 1fr;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <main class="pfa-calc">
+      <section class="pfa-calc__panel" aria-labelledby="pfa-calc-title">
+        <header class="pfa-calc__header">
+          <h1 id="pfa-calc-title" class="pfa-calc__title">Hvad koster det at gå tidligere på pension?</h1>
+          <p class="pfa-calc__intro">Beregneren bruger formlerne fra PFA-arket og viser, hvor meget ekstra du skal spare op for at få samme årlige pension før skat.</p>
+        </header>
+
+        <form id="pfa-calc-form" class="pfa-calc__form" novalidate>
+          <div class="pfa-calc__grid">
+            <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-current-age">Nuværende alder</label>
+              <input id="pfa-current-age" class="pfa-calc__input" type="text" inputmode="decimal" value="24" />
+            </div>
+
+            <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-retirement-age">Pensionsalder</label>
+              <input id="pfa-retirement-age" class="pfa-calc__input" type="text" inputmode="decimal" value="70" />
+            </div>
+
+            <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-years-early">År tidligere på pension</label>
+              <input id="pfa-years-early" class="pfa-calc__input" type="text" inputmode="decimal" value="1" />
+            </div>
+
+            <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-salary">Årlig bruttoløn</label>
+              <input id="pfa-salary" class="pfa-calc__input" type="text" inputmode="numeric" value="400.000" data-format="amount" />
+              <p class="pfa-calc__hint">Skriv løn før AM-bidrag.</p>
+            </div>
+
+            <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-depot">Eksisterende depot</label>
+              <input id="pfa-depot" class="pfa-calc__input" type="text" inputmode="numeric" value="0" data-format="amount" />
+            </div>
+
+            <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-contribution">Indbetalingsprocent</label>
+              <input id="pfa-contribution" class="pfa-calc__input" type="text" inputmode="decimal" value="15" />
+              <p class="pfa-calc__hint">Skriv fx 15 for 15 procent.</p>
+            </div>
+          </div>
+
+          <details class="pfa-calc__details">
+            <summary class="pfa-calc__summary">Antagelser fra PFA-arket</summary>
+            <div class="pfa-calc__grid pfa-calc__assumptions">
+              <div class="pfa-calc__field">
+                <label class="pfa-calc__label" for="pfa-insurance">Forsikringsdækninger</label>
+                <input id="pfa-insurance" class="pfa-calc__input" type="text" inputmode="decimal" value="18" />
+              </div>
+
+              <div class="pfa-calc__field">
+                <label class="pfa-calc__label" for="pfa-return">Afkast efter PAL</label>
+                <input id="pfa-return" class="pfa-calc__input" type="text" inputmode="decimal" value="5" />
+              </div>
+
+              <div class="pfa-calc__field">
+                <label class="pfa-calc__label" for="pfa-inflation">Inflation</label>
+                <input id="pfa-inflation" class="pfa-calc__input" type="text" inputmode="decimal" value="2" />
+              </div>
+
+              <div class="pfa-calc__field">
+                <label class="pfa-calc__label" for="pfa-interest">Rente i udbetalingsfase</label>
+                <input id="pfa-interest" class="pfa-calc__input" type="text" inputmode="decimal" value="4" />
+              </div>
+
+              <div class="pfa-calc__field">
+                <label class="pfa-calc__label" for="pfa-payout-years">Udbetalingsrater</label>
+                <input id="pfa-payout-years" class="pfa-calc__input" type="text" inputmode="decimal" value="22" />
+              </div>
+
+              <div class="pfa-calc__field">
+                <label class="pfa-calc__label" for="pfa-tax-value">Skatteværdi af frivillig indbetaling</label>
+                <input id="pfa-tax-value" class="pfa-calc__input" type="text" inputmode="decimal" value="38" />
+              </div>
+            </div>
+          </details>
+
+          <div class="pfa-calc__actions">
+            <button class="pfa-calc__button" type="submit">Beregn</button>
+            <button class="pfa-calc__button pfa-calc__button-secondary" type="button" id="pfa-example">Indsæt PFA-eksempel</button>
+          </div>
+
+          <p id="pfa-error" class="pfa-calc__error" role="alert" aria-live="polite"></p>
+        </form>
+
+        <section class="pfa-calc__results" aria-live="polite" aria-atomic="true">
+          <h2 class="pfa-calc__heading">Resultat</h2>
+          <div class="pfa-calc__result-grid">
+            <article class="pfa-calc__result">
+              <p class="pfa-calc__result-label">Ekstra pr. måned før skat</p>
+              <p id="pfa-extra-before-tax" class="pfa-calc__result-value">-</p>
+              <p class="pfa-calc__result-meta">Den nødvendige ekstra indbetaling fordelt på 12 måneder.</p>
+            </article>
+
+            <article class="pfa-calc__result">
+              <p class="pfa-calc__result-label">Nettoeffekt pr. måned efter skat</p>
+              <p id="pfa-net-after-tax" class="pfa-calc__result-value">-</p>
+              <p class="pfa-calc__result-meta">Efter skatteværdien af den frivillige indbetaling.</p>
+            </article>
+          </div>
+
+          <table class="pfa-calc__table">
+            <tbody>
+              <tr><th>Slutdepot normal</th><td id="pfa-normal-depot">-</td></tr>
+              <tr><th>Slutdepot tidlig</th><td id="pfa-early-depot">-</td></tr>
+              <tr><th>Pension før skat normal</th><td id="pfa-normal-pension">-</td></tr>
+              <tr><th>Pension før skat tidlig</th><td id="pfa-early-pension">-</td></tr>
+              <tr><th>Fald i årlig pension før skat</th><td id="pfa-pension-drop">-</td></tr>
+              <tr><th>Manglende kapital</th><td id="pfa-missing-capital">-</td></tr>
+              <tr><th>Nødvendig ekstra årlig indbetaling</th><td id="pfa-required-extra">-</td></tr>
+              <tr><th>Ekstra indbetaling i procent af løn</th><td id="pfa-extra-percent">-</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="pfa-calc__explainer">
+          <h2 class="pfa-calc__heading">Sådan regner vi</h2>
+          <p>Først beregnes, hvor stort depotet bliver ved normal pension og ved tidlig pension. Dernæst beregnes, hvor stort depotet skulle have været ved tidlig pension for at give samme årlige pension før skat som ved normal pension.</p>
+          <p>Forskellen er den manglende kapital. Den fordeles baglæns over årene frem til den tidlige pension som en nødvendig ekstra årlig indbetaling.</p>
+        </section>
+      </section>
+    </main>
+
+    <script>
+(function () {
+  const form = document.getElementById('pfa-calc-form');
+  const errorNode = document.getElementById('pfa-error');
+  const exampleButton = document.getElementById('pfa-example');
+
+  const fields = {
+    currentAge: document.getElementById('pfa-current-age'),
+    retirementAge: document.getElementById('pfa-retirement-age'),
+    yearsEarly: document.getElementById('pfa-years-early'),
+    annualGrossSalary: document.getElementById('pfa-salary'),
+    existingDepot: document.getElementById('pfa-depot'),
+    contributionRate: document.getElementById('pfa-contribution'),
+    insuranceCoverageRate: document.getElementById('pfa-insurance'),
+    returnAfterPal: document.getElementById('pfa-return'),
+    inflation: document.getElementById('pfa-inflation'),
+    payoutInterestRate: document.getElementById('pfa-interest'),
+    payoutYears: document.getElementById('pfa-payout-years'),
+    voluntaryContributionTaxValue: document.getElementById('pfa-tax-value')
+  };
+
+  const outputNodes = {
+    extraPerMonthBeforeTax: document.getElementById('pfa-extra-before-tax'),
+    netEffectPerMonthAfterTax: document.getElementById('pfa-net-after-tax'),
+    normalFinalDepot: document.getElementById('pfa-normal-depot'),
+    earlyFinalDepot: document.getElementById('pfa-early-depot'),
+    normalAnnualPensionBeforeTax: document.getElementById('pfa-normal-pension'),
+    earlyAnnualPensionBeforeTax: document.getElementById('pfa-early-pension'),
+    annualPensionDropBeforeTax: document.getElementById('pfa-pension-drop'),
+    missingCapital: document.getElementById('pfa-missing-capital'),
+    requiredExtraAnnualContribution: document.getElementById('pfa-required-extra'),
+    extraContributionPctOfSalary: document.getElementById('pfa-extra-percent')
+  };
+
+  const krFormatter = new Intl.NumberFormat('da-DK', {
+    style: 'currency',
+    currency: 'DKK',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+
+  const percentFormatter = new Intl.NumberFormat('da-DK', {
+    style: 'percent',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+
+  if (!form) return;
+
+  function parseDanishNumber(value) {
+    const normalized = String(value)
+      .trim()
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
+      .replace(',', '.')
+      .replace(/[^\d.-]/g, '');
+
+    return Number(normalized);
+  }
+
+  function parsePercent(value) {
+    const numeric = parseDanishNumber(value);
+    return numeric / 100;
+  }
+
+  function formatInputAmount(value) {
+    const digits = String(value).replace(/\D/g, '');
+    return digits ? Number(digits).toLocaleString('da-DK') : '';
+  }
+
+  function setError(message) {
+    if (errorNode) errorNode.textContent = message;
+  }
+
+  function getInput() {
+    return {
+      currentAge: parseDanishNumber(fields.currentAge.value),
+      retirementAge: parseDanishNumber(fields.retirementAge.value),
+      yearsEarly: parseDanishNumber(fields.yearsEarly.value),
+      annualGrossSalary: parseDanishNumber(fields.annualGrossSalary.value),
+      existingDepot: parseDanishNumber(fields.existingDepot.value),
+      contributionRate: parsePercent(fields.contributionRate.value),
+      insuranceCoverageRate: parsePercent(fields.insuranceCoverageRate.value),
+      returnAfterPal: parsePercent(fields.returnAfterPal.value),
+      inflation: parsePercent(fields.inflation.value),
+      payoutInterestRate: parsePercent(fields.payoutInterestRate.value),
+      payoutYears: parseDanishNumber(fields.payoutYears.value),
+      voluntaryContributionTaxValue: parsePercent(fields.voluntaryContributionTaxValue.value)
+    };
+  }
+
+  function validateInput(input) {
+    const entries = Object.entries(input);
+    const invalid = entries.find(([, value]) => !Number.isFinite(value));
+    if (invalid) return 'Udfyld alle felter med tal.';
+    if (input.currentAge < 0 || input.retirementAge <= input.currentAge) return 'Pensionsalderen skal være højere end den nuværende alder.';
+    if (input.yearsEarly <= 0) return 'Antal år tidligere på pension skal være over 0.';
+    if (input.retirementAge - input.currentAge - input.yearsEarly <= 0) return 'Tidlig pension skal stadig ligge efter den nuværende alder.';
+    if (input.annualGrossSalary <= 0) return 'Årlig bruttoløn skal være over 0 kr.';
+    if (input.existingDepot < 0) return 'Eksisterende depot kan ikke være negativt.';
+    if (input.payoutYears <= 0) return 'Udbetalingsrater skal være over 0.';
+    if (input.contributionRate < 0 || input.insuranceCoverageRate < 0 || input.insuranceCoverageRate >= 1) return 'Tjek indbetalingsprocent og forsikringsdækninger.';
+    if (input.voluntaryContributionTaxValue < 0 || input.voluntaryContributionTaxValue >= 1) return 'Skatteværdien skal være mellem 0 og 100 procent.';
+    return '';
+  }
+
+  function calculateEarlyRetirementCost(input) {
+    const realSavingsReturn = (1 + input.returnAfterPal) / (1 + input.inflation) - 1;
+    const yearsToRetirement = input.retirementAge - input.currentAge;
+    const yearsToEarlyRetirement = yearsToRetirement - input.yearsEarly;
+    const annualContribution = input.annualGrossSalary * 0.92 * input.contributionRate * (1 - input.insuranceCoverageRate);
+
+    const savingsFactor = (years) => {
+      if (realSavingsReturn === 0) return years;
+      return ((1 + realSavingsReturn) ** years - 1) / realSavingsReturn;
+    };
+
+    const normalSavingsFactor = savingsFactor(yearsToRetirement);
+    const earlySavingsFactor = savingsFactor(yearsToEarlyRetirement);
+
+    const normalFinalDepot =
+      input.existingDepot * (1 + realSavingsReturn) ** yearsToRetirement +
+      annualContribution * normalSavingsFactor;
+
+    const earlyFinalDepot =
+      input.existingDepot * (1 + realSavingsReturn) ** yearsToEarlyRetirement +
+      annualContribution * earlySavingsFactor;
+
+    const ratePassive = (years) => {
+      if (input.payoutInterestRate === 0) return years;
+      return (1 - 1 / (1 + input.payoutInterestRate) ** years) / Math.log(1 + input.payoutInterestRate);
+    };
+
+    const normalRatePassive = ratePassive(input.payoutYears);
+    const earlyRatePassive = ratePassive(input.payoutYears + input.yearsEarly);
+    const normalAnnualPensionBeforeTax = normalFinalDepot / normalRatePassive;
+    const earlyAnnualPensionBeforeTax = earlyFinalDepot / earlyRatePassive;
+    const annualPensionDropBeforeTax = earlyAnnualPensionBeforeTax - normalAnnualPensionBeforeTax;
+    const targetEarlyDepot = normalAnnualPensionBeforeTax * earlyRatePassive;
+    const missingCapital = Math.max(0, targetEarlyDepot - earlyFinalDepot);
+    const requiredExtraAnnualContribution = earlySavingsFactor > 0 ? missingCapital / earlySavingsFactor : 0;
+    const extraContributionPctOfSalary = requiredExtraAnnualContribution / input.annualGrossSalary;
+    const extraPerMonthBeforeTax = requiredExtraAnnualContribution / 12;
+    const netEffectPerMonthAfterTax = extraPerMonthBeforeTax * 0.92 * (1 - input.voluntaryContributionTaxValue);
+
+    return {
+      normalFinalDepot,
+      earlyFinalDepot,
+      normalAnnualPensionBeforeTax,
+      earlyAnnualPensionBeforeTax,
+      annualPensionDropBeforeTax,
+      missingCapital,
+      requiredExtraAnnualContribution,
+      extraContributionPctOfSalary,
+      extraPerMonthBeforeTax,
+      netEffectPerMonthAfterTax
+    };
+  }
+
+  function renderResults(result) {
+    outputNodes.extraPerMonthBeforeTax.textContent = krFormatter.format(result.extraPerMonthBeforeTax);
+    outputNodes.netEffectPerMonthAfterTax.textContent = krFormatter.format(result.netEffectPerMonthAfterTax);
+    outputNodes.normalFinalDepot.textContent = krFormatter.format(result.normalFinalDepot);
+    outputNodes.earlyFinalDepot.textContent = krFormatter.format(result.earlyFinalDepot);
+    outputNodes.normalAnnualPensionBeforeTax.textContent = krFormatter.format(result.normalAnnualPensionBeforeTax);
+    outputNodes.earlyAnnualPensionBeforeTax.textContent = krFormatter.format(result.earlyAnnualPensionBeforeTax);
+    outputNodes.annualPensionDropBeforeTax.textContent = krFormatter.format(result.annualPensionDropBeforeTax);
+    outputNodes.missingCapital.textContent = krFormatter.format(result.missingCapital);
+    outputNodes.requiredExtraAnnualContribution.textContent = krFormatter.format(result.requiredExtraAnnualContribution);
+    outputNodes.extraContributionPctOfSalary.textContent = percentFormatter.format(result.extraContributionPctOfSalary);
+  }
+
+  function calculateAndRender() {
+    const input = getInput();
+    const error = validateInput(input);
+    if (error) {
+      setError(error);
+      return;
+    }
+
+    setError('');
+    renderResults(calculateEarlyRetirementCost(input));
+  }
+
+  document.querySelectorAll('[data-format=amount]').forEach((input) => {
+    input.addEventListener('input', () => {
+      input.value = formatInputAmount(input.value);
+    });
+  });
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    calculateAndRender();
+  });
+
+  if (exampleButton) {
+    exampleButton.addEventListener('click', () => {
+      fields.currentAge.value = '24';
+      fields.retirementAge.value = '70';
+      fields.yearsEarly.value = '1';
+      fields.annualGrossSalary.value = '400.000';
+      fields.existingDepot.value = '0';
+      fields.contributionRate.value = '15';
+      fields.insuranceCoverageRate.value = '18';
+      fields.returnAfterPal.value = '5';
+      fields.inflation.value = '2';
+      fields.payoutInterestRate.value = '4';
+      fields.payoutYears.value = '22';
+      fields.voluntaryContributionTaxValue.value = '38';
+      calculateAndRender();
+    });
+  }
+
+  calculateAndRender();
+})();
+    </script>
+  </body>
+</html>
