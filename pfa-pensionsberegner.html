@@ -30,10 +30,11 @@
   --pfa-calc-font-display-pol-vibe: 'PFA-Calc-Flama-Extrabold', 'Helvetica Neue', Arial, sans-serif;
   --pfa-calc-radius-pol-vibe: 8px;
   box-sizing: border-box;
-  width: min(900px, 100% - 2rem);
-  margin: clamp(1rem, 4vw, 3rem) auto;
+  width: min(900px, 100%);
+  margin: 0 auto;
   color: var(--pfa-calc-color-text-pol-vibe);
   font-family: var(--pfa-calc-font-sans-pol-vibe);
+  font-size: 16px;
 }
 
 .pfa-calc *,
@@ -46,13 +47,13 @@
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
   background: var(--pfa-calc-color-surface-pol-vibe);
-  padding: clamp(1.2rem, 3vw, 2rem);
+  padding: clamp(0.85rem, 2vw, 1.35rem);
 }
 
 .pfa-calc__header {
   display: grid;
-  gap: 0.65rem;
-  margin-bottom: 1.5rem;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
 }
 
 .pfa-calc__title,
@@ -64,47 +65,48 @@
 }
 
 .pfa-calc__title {
-  font-size: clamp(1.75rem, 3.6vw, 2.55rem);
+  font-size: clamp(1.35rem, 3vw, 2rem);
 }
 
 .pfa-calc__intro {
   max-width: 64ch;
   margin: 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  font-size: 1.05rem;
-  line-height: 1.45;
+  font-size: 0.95rem;
+  line-height: 1.35;
 }
 
 .pfa-calc__form {
   display: grid;
-  gap: 1.2rem;
+  gap: 0.75rem;
 }
 
 .pfa-calc__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.65rem;
 }
 
 .pfa-calc__field {
   display: grid;
-  gap: 0.45rem;
+  gap: 0.3rem;
 }
 
 .pfa-calc__label {
   font-weight: 800;
   line-height: 1.25;
+  font-size: 0.95rem;
 }
 
 .pfa-calc__input {
   width: 100%;
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.75rem 0.85rem;
+  padding: 0.52rem 0.65rem;
   background: #fffdf9;
   color: var(--pfa-calc-color-text-pol-vibe);
   font: inherit;
-  font-size: 1rem;
+  font-size: 0.98rem;
 }
 
 .pfa-calc__input:focus {
@@ -115,14 +117,14 @@
 .pfa-calc__hint {
   margin: 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  font-size: 0.88rem;
-  line-height: 1.32;
+  font-size: 0.82rem;
+  line-height: 1.25;
 }
 
 .pfa-calc__details {
   border: 1px dashed var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 1rem;
+  padding: 0.65rem 0.75rem;
   background: var(--pfa-calc-color-soft-pol-vibe);
 }
 
@@ -132,20 +134,20 @@
 }
 
 .pfa-calc__assumptions {
-  margin-top: 1rem;
+  margin-top: 0.7rem;
 }
 
 .pfa-calc__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.55rem;
 }
 
 .pfa-calc__button {
   min-height: 2.8rem;
   border: 0;
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.75rem 1rem;
+  padding: 0.62rem 0.9rem;
   background: var(--pfa-calc-color-accent-pol-vibe);
   color: #fff;
   cursor: pointer;
@@ -168,43 +170,50 @@
 
 .pfa-calc__results {
   display: grid;
-  gap: 1rem;
-  margin-top: 1.6rem;
+  gap: 0.8rem;
+  margin-top: 1rem;
   border-top: 1px solid var(--pfa-calc-color-border-pol-vibe);
-  padding-top: 1.5rem;
+  padding-top: 1rem;
 }
 
 .pfa-calc__result-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.65rem;
 }
 
 .pfa-calc__result {
-  min-height: 132px;
+  min-height: 96px;
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
   border-left: 6px solid var(--pfa-calc-color-accent-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 1rem;
+  padding: 0.75rem;
   background: #fffefb;
 }
 
 .pfa-calc__result-label {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem;
   color: var(--pfa-calc-color-muted-pol-vibe);
   font-weight: 800;
   line-height: 1.3;
 }
 
 .pfa-calc__result-value {
-  font-size: clamp(1.55rem, 4.5vw, 2.2rem);
+  font-size: clamp(1.25rem, 4vw, 1.8rem);
 }
 
 .pfa-calc__result-meta {
-  margin: 0.55rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
   font-size: 0.9rem;
   line-height: 1.35;
+}
+
+.pfa-calc__detail-table {
+  border: 1px solid var(--pfa-calc-color-border-pol-vibe);
+  border-radius: var(--pfa-calc-radius-pol-vibe);
+  padding: 0.65rem 0.75rem;
+  background: #fffefb;
 }
 
 .pfa-calc__table {
@@ -228,21 +237,22 @@
 
 .pfa-calc__explainer {
   display: grid;
-  gap: 0.55rem;
-  margin-top: 1.4rem;
+  gap: 0.45rem;
+  margin-top: 0.95rem;
   border-top: 1px dashed var(--pfa-calc-color-border-pol-vibe);
-  padding-top: 1rem;
+  padding-top: 0.75rem;
 }
 
 .pfa-calc__explainer p {
   margin: 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  line-height: 1.45;
+  line-height: 1.35;
+  font-size: 0.9rem;
 }
 
 .pfa-calc__note {
   border-left: 4px solid var(--pfa-calc-color-accent-pol-vibe);
-  padding: 0.85rem 1rem;
+  padding: 0.65rem 0.8rem;
   background: var(--pfa-calc-color-soft-pol-vibe);
 }
 
@@ -256,11 +266,27 @@
     border-right: 0;
     border-left: 0;
     border-radius: 0;
-    padding: 1.25rem 1rem;
+    padding: 0.85rem;
   }
 
   .pfa-calc__grid,
   .pfa-calc__result-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pfa-calc__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pfa-calc__button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .pfa-calc__result-grid,
+  .pfa-calc__actions {
     grid-template-columns: 1fr;
   }
 }
@@ -368,18 +394,21 @@
             </article>
           </div>
 
-          <table class="pfa-calc__table">
-            <tbody>
-              <tr><th>Slutdepot normal</th><td id="pfa-normal-depot">-</td></tr>
-              <tr><th>Slutdepot tidlig</th><td id="pfa-early-depot">-</td></tr>
-              <tr><th>Pension før skat normal</th><td id="pfa-normal-pension">-</td></tr>
-              <tr><th>Pension før skat tidlig</th><td id="pfa-early-pension">-</td></tr>
-              <tr><th>Fald i årlig pension før skat</th><td id="pfa-pension-drop">-</td></tr>
-              <tr><th>Manglende kapital</th><td id="pfa-missing-capital">-</td></tr>
-              <tr><th>Nødvendig ekstra årlig indbetaling</th><td id="pfa-required-extra">-</td></tr>
-              <tr><th>Ekstra indbetaling i procent af løn</th><td id="pfa-extra-percent">-</td></tr>
-            </tbody>
-          </table>
+          <details class="pfa-calc__detail-table">
+            <summary class="pfa-calc__summary">Vis mellemregninger</summary>
+            <table class="pfa-calc__table">
+              <tbody>
+                <tr><th>Slutdepot normal</th><td id="pfa-normal-depot">-</td></tr>
+                <tr><th>Slutdepot tidlig</th><td id="pfa-early-depot">-</td></tr>
+                <tr><th>Pension før skat normal</th><td id="pfa-normal-pension">-</td></tr>
+                <tr><th>Pension før skat tidlig</th><td id="pfa-early-pension">-</td></tr>
+                <tr><th>Fald i årlig pension før skat</th><td id="pfa-pension-drop">-</td></tr>
+                <tr><th>Manglende kapital</th><td id="pfa-missing-capital">-</td></tr>
+                <tr><th>Nødvendig ekstra årlig indbetaling</th><td id="pfa-required-extra">-</td></tr>
+                <tr><th>Ekstra indbetaling i procent af løn</th><td id="pfa-extra-percent">-</td></tr>
+              </tbody>
+            </table>
+          </details>
         </section>
 
         <section class="pfa-calc__explainer">
