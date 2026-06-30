@@ -133,6 +133,13 @@
   font-weight: 800;
 }
 
+.pfa-calc__details-text {
+  margin: 0.7rem 0 0;
+  color: var(--pfa-calc-color-muted-pol-vibe);
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
 .pfa-calc__assumptions {
   margin-top: 0.7rem;
 }
@@ -336,7 +343,8 @@
           </div>
 
           <details class="pfa-calc__details">
-            <summary class="pfa-calc__summary">Antagelser fra PFA-arket</summary>
+            <summary class="pfa-calc__summary">Forudsætninger i beregningen</summary>
+            <p class="pfa-calc__details-text">Beregneren bruger disse standardtal for afkast, inflation, udbetalingsperiode, forsikringsdækninger og skatteværdi. De er sat ud fra PFA-modellen, men kan justeres her.</p>
             <div class="pfa-calc__grid pfa-calc__assumptions">
               <div class="pfa-calc__field">
                 <label class="pfa-calc__label" for="pfa-insurance">Forsikringsdækninger</label>
@@ -372,7 +380,7 @@
 
           <div class="pfa-calc__actions">
             <button class="pfa-calc__button" type="submit">Beregn</button>
-            <button class="pfa-calc__button pfa-calc__button-secondary" type="button" id="pfa-example">Indsæt PFA-eksempel</button>
+            <button class="pfa-calc__button pfa-calc__button-secondary" type="button" id="pfa-example">Gendan standardtal</button>
           </div>
 
           <p id="pfa-error" class="pfa-calc__error" role="alert" aria-live="polite"></p>
