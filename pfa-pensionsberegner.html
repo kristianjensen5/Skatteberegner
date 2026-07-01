@@ -242,19 +242,8 @@
   font-weight: 800;
 }
 
-.pfa-calc__explainer {
-  display: grid;
-  gap: 0.45rem;
-  margin-top: 0.95rem;
-  border-top: 1px dashed var(--pfa-calc-color-border-pol-vibe);
-  padding-top: 0.75rem;
-}
-
-.pfa-calc__explainer p {
-  margin: 0;
-  color: var(--pfa-calc-color-muted-pol-vibe);
-  line-height: 1.35;
-  font-size: 0.9rem;
+.pfa-calc__result-explainer {
+  margin-top: 1rem;
 }
 
 .pfa-calc__note {
@@ -304,7 +293,7 @@
       <section class="pfa-calc__panel" aria-labelledby="pfa-calc-title">
         <header class="pfa-calc__header">
           <h1 id="pfa-calc-title" class="pfa-calc__title">Hvad koster det at gå tidligere på pension?</h1>
-          <p class="pfa-calc__intro">Beregneren bruger formlerne fra PFA-arket og viser, hvor meget ekstra du skal spare op for at få samme årlige pension før skat.</p>
+          <p class="pfa-calc__intro">Beregneren bruger PFA's formler og viser, hvor meget ekstra du skal spare op om måneden, hvis du vil gå tidligere på pension og stadig få samme årlige pension før skat.</p>
         </header>
 
         <form id="pfa-calc-form" class="pfa-calc__form" novalidate>
@@ -315,8 +304,15 @@
             </div>
 
             <div class="pfa-calc__field">
+              <label class="pfa-calc__label" for="pfa-birth-year">Fødselsår</label>
+              <input id="pfa-birth-year" class="pfa-calc__input" type="text" inputmode="numeric" value="2002" />
+              <p class="pfa-calc__hint">Vi udfylder automatisk din folkepensionsalder. <a href="https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32" target="_blank" rel="noopener">Tjek din egen på borger.dk</a>.</p>
+            </div>
+
+            <div class="pfa-calc__field">
               <label class="pfa-calc__label" for="pfa-retirement-age">Pensionsalder</label>
               <input id="pfa-retirement-age" class="pfa-calc__input" type="text" inputmode="decimal" value="70" />
+              <p class="pfa-calc__hint">Udfyldt automatisk ud fra fødselsåret - ret gerne selv.</p>
             </div>
 
             <div class="pfa-calc__field">
@@ -390,15 +386,14 @@
           <h2 class="pfa-calc__heading">Resultat</h2>
           <div class="pfa-calc__result-grid">
             <article class="pfa-calc__result">
-              <p class="pfa-calc__result-label">Ekstra pr. måned før skat</p>
+              <p class="pfa-calc__result-label">Så meget ekstra skal du indbetale om måneden - før skat</p>
               <p id="pfa-extra-before-tax" class="pfa-calc__result-value">-</p>
-              <p class="pfa-calc__result-meta">Den nødvendige ekstra indbetaling fordelt på 12 måneder.</p>
             </article>
 
             <article class="pfa-calc__result">
-              <p class="pfa-calc__result-label">Nettoeffekt pr. måned efter skat</p>
+              <p class="pfa-calc__result-label">Så meget koster det dig reelt om måneden - efter skat</p>
               <p id="pfa-net-after-tax" class="pfa-calc__result-value">-</p>
-              <p class="pfa-calc__result-meta">Efter skatteværdien af den frivillige indbetaling.</p>
+              <p class="pfa-calc__result-meta">Lavere, fordi indbetalingen giver dig fradrag i skatten.</p>
             </article>
           </div>
 
@@ -419,12 +414,13 @@
           </details>
         </section>
 
-        <section class="pfa-calc__explainer">
-          <h2 class="pfa-calc__heading">Sådan regner vi</h2>
-          <p>Først beregnes, hvor stort depotet bliver ved normal pension og ved tidlig pension. Dernæst beregnes, hvor stort depotet skulle have været ved tidlig pension for at give samme årlige pension før skat som ved normal pension.</p>
-          <p>Forskellen er den manglende kapital. Den fordeles baglæns over årene frem til den tidlige pension som en nødvendig ekstra årlig indbetaling.</p>
-          <p class="pfa-calc__note">Der er tale om en forsimplet beregner, hvor hele opsparingen fordeles i årlige rater indtil 22 år efter den indtastede pensionsalder. Det anbefales at søge individuel rådgivning i sit pensionsselskab, inden man justerer på sin pension.</p>
-        </section>
+        <details class="pfa-calc__details pfa-calc__result-explainer">
+          <summary class="pfa-calc__summary">Sådan regner vi</summary>
+          <p class="pfa-calc__details-text">Først beregnes, hvor stort depotet bliver ved normal pension og ved tidlig pension. Dernæst beregnes, hvor stort depotet skulle have været ved tidlig pension for at give samme årlige pension før skat som ved normal pension.</p>
+          <p class="pfa-calc__details-text">Forskellen er den manglende kapital. Den fordeles baglæns over årene frem til den tidlige pension som en nødvendig ekstra årlig indbetaling - det beløb deler vi med 12 for at vise beløbet pr. måned.</p>
+          <p class="pfa-calc__details-text">Når du indbetaler ekstra til pension, får du fradrag i skatten af beløbet. Skatteværdien (38 procent som standard) er, hvor meget af den ekstra indbetaling du får igen via lavere skat - derfor er den reelle udgift lavere end beløbet før skat.</p>
+          <p class="pfa-calc__details-text pfa-calc__note">Der er tale om en forsimplet beregner, hvor hele opsparingen fordeles i årlige rater indtil 22 år efter den indtastede pensionsalder. Det anbefales at søge individuel rådgivning i sit pensionsselskab, inden man justerer på sin pension.</p>
+        </details>
       </section>
     </main>
 
@@ -436,6 +432,7 @@
 
   const fields = {
     currentAge: document.getElementById('pfa-current-age'),
+    birthYear: document.getElementById('pfa-birth-year'),
     retirementAge: document.getElementById('pfa-retirement-age'),
     yearsEarly: document.getElementById('pfa-years-early'),
     annualGrossSalary: document.getElementById('pfa-salary'),
@@ -491,6 +488,21 @@
   function parsePercent(value) {
     const numeric = parseDanishNumber(value);
     return numeric / 100;
+  }
+
+  function getOfficialPensionAge(birthYear) {
+    if (!Number.isFinite(birthYear)) return null;
+    if (birthYear <= 1953) return 65;
+    if (birthYear === 1954) return 65.5;
+    if (birthYear === 1955) return 66.5;
+    if (birthYear <= 1962) return 67;
+    if (birthYear <= 1966) return 68;
+    if (birthYear <= 1970) return 69;
+    return 70;
+  }
+
+  function formatPensionAge(age) {
+    return String(age).replace('.', ',');
   }
 
   function formatInputAmount(value) {
@@ -618,6 +630,16 @@
     });
   });
 
+  if (fields.birthYear && fields.retirementAge) {
+    fields.birthYear.addEventListener('input', () => {
+      const birthYear = parseDanishNumber(fields.birthYear.value);
+      const currentYear = new Date().getFullYear();
+      if (!Number.isFinite(birthYear) || birthYear < 1900 || birthYear > currentYear + 1) return;
+      const age = getOfficialPensionAge(birthYear);
+      if (age !== null) fields.retirementAge.value = formatPensionAge(age);
+    });
+  }
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     calculateAndRender();
@@ -626,6 +648,7 @@
   if (exampleButton) {
     exampleButton.addEventListener('click', () => {
       fields.currentAge.value = '24';
+      fields.birthYear.value = '2002';
       fields.retirementAge.value = '70';
       fields.yearsEarly.value = '1';
       fields.annualGrossSalary.value = '400.000';

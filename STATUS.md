@@ -1,34 +1,33 @@
-# Status: Skattelettelsesberegner
+# Status: Skatteberegner (repo)
 
-Opdateret: 24. juni 2026
+Opdateret: 1. juli 2026
 
 ## Formål
 
-Projektet er en enkel skattelettelsesberegner til en artikel. Brugeren indtaster sin årsløn før skat, og beregneren viser:
+Repoet indeholder to selvstændige beregnere til artikler:
 
-- skattelettelse om året
-- skattelettelse pr. måned
+1. **Skattelettelsesberegner** (`index.html`) — færdig, deployet.
+2. **PFA-pensionsberegner** (`pfa-pensionsberegner.html`) — "Hvad koster det at gå tidligere på pension?". Under udvikling, endnu ikke linket separat i en artikel.
 
-Live-version:
+Begge er self-contained HTML-filer (CSS + JS inline) og deployes via GitHub Pages fra samme repo.
+
+Live-version (repo-rod):
 https://kristianjensen5.github.io/Skatteberegner/
 
 GitHub-repo:
 https://github.com/kristianjensen5/Skatteberegner
 
-## Nuværende beregningslogik
+---
 
-Beregneren tager udgangspunkt i, at brugeren indtaster bruttoløn for et helt år før AM-bidrag.
+## 1. Skattelettelsesberegner (`index.html`)
 
-Først omregnes lønnen til indkomst efter AM-bidrag:
+Brugeren indtaster sin årsløn før skat, og beregneren viser skattelettelse om året og pr. måned ud fra udspillet, hvor mellemskat og toptopskat afskaffes.
+
+### Beregningslogik
 
 ```text
 indkomst efter AM-bidrag = årsløn × 0,92
-```
-
-Derefter beregnes skattelettelsen som summen af:
-
-```text
-fjernet mellemskat + fjernet toptopskat
+skattelettelse = fjernet mellemskat + fjernet toptopskat
 ```
 
 Satser og grænser i koden:
@@ -40,49 +39,52 @@ Toptopskat: 5 % over 2.592.700 kr. efter AM-bidrag
 Ny topskat: 15 procentpoint over 777.900 kr. efter AM-bidrag
 ```
 
-Den nye topskat på 15 procentpoint giver ikke i sig selv en skattelettelse, fordi indkomst over 777.900 kr. før udspillet allerede var ramt af 7,5 procent mellemskat og 7,5 procent topskat.
+Eksempler: 700.000 kr./år → ca. 210 kr./år; 850.000 kr./år → ca. 10.253 kr./år; 3.000.000 kr./år → ca. 18.618 kr./år.
 
-## Eksempler
+Tekster ligger både i `calculator-texts.json` og som fallback-JSON i `index.html` — de to skal holdes ens, da beregneren falder tilbage til fallback-teksten hvis den eksterne JSON ikke kan hentes i embed-miljøet.
 
-```text
-700.000 kr. i årsløn før skat:
-Ca. 210 kr. om året / 18 kr. om måneden
+---
 
-850.000 kr. i årsløn før skat:
-Ca. 10.253 kr. om året / 854 kr. om måneden
+## 2. PFA-pensionsberegner (`pfa-pensionsberegner.html`)
 
-3.000.000 kr. i årsløn før skat:
-Ca. 18.618 kr. om året / 1.551 kr. om måneden
-```
+Beregner hvor meget ekstra man skal indbetale om måneden for at gå et valgt antal år tidligere på pension uden at få en lavere årlig pension før skat. Formlerne er udtrukket fra `Hvad koster det.xlsx` (PFA's eget regneark) og dokumenteret trin for trin i `PFA-formelaudit.md`, inklusive et kontrolregnestykke der matcher Excel-facit.
 
-Mange lønninger over ca. 845.500 kr. før AM-bidrag giver samme resultat, indtil man rammer toptopskattegrænsen. Det skyldes, at den maksimale lettelse fra mellemskatten er nået.
+### Inputfelter
 
-## Filer
+Fødselsår, nuværende alder, pensionsalder, år tidligere på pension, årlig bruttoløn, eksisterende depot, indbetalingsprocent. Under en fold-ud ("Forudsætninger i beregningen"): forsikringsdækninger, afkast efter PAL, inflation, rente i udbetalingsfase, udbetalingsrater, skatteværdi af frivillig indbetaling — alle med PFA's standardsatser som default, men redigerbare.
 
-- `index.html`: Selve beregneren med CSS, HTML, fallback-tekster og JavaScript.
-- `calculator-texts.json`: Redaktionelle tekster, så copy kan justeres hurtigere.
-- `pensionsberegner desktop.html`: Tidligere pensionsberegner brugt som inspiration.
+### Session 1. juli 2026 — redaktør-feedback rettet
 
-## Tekster
+- **Fødselsår-felt tilføjet:** udfylder automatisk den lovfastsatte danske folkepensionsalder (tabel verificeret mod borger.dk + star.dk, se kilder nedenfor), med link til borger.dk hvis man vil dobbelttjekke. Pensionsalder-feltet forbliver redigerbart bagefter.
+- **Copy strammet til standalone-brug:** intro nævner ikke længere "PFA-arket" (uforklaret jargon), men "PFA's formler", og forklarer selv formålet uden at kræve en anden artikel som kontekst.
+- **Resultat-sektionen sprogligt forenklet:** labels er nu fulde sætninger ("Så meget ekstra skal du indbetale om måneden - før skat" / "Så meget koster det dig reelt om måneden - efter skat"). Den tekniske metatekst ("fordelt på 12 måneder") er fjernet fra resultatkortet og flyttet til "Sådan regner vi".
+- **"Skatteværdien" forklaret i klartekst:** både i resultatkortets metatekst og i den udvidede forklaring — det er skattefradraget man får ved at indbetale ekstra til pension.
+- **"Sådan regner vi" er nu en fold-ud** (`<details>`), ligesom "Forudsætninger", så siden ikke virker uoverskuelig ved første blik.
+- **Bug fundet og rettet under verificering:** ugyldigt eller tomt input i Fødselsår-feltet satte tidligere stille Pensionsalder til 65 i baggrunden (fordi `Number('')` parser til 0). Rettet med et sanity-tjek (år skal være mellem 1900 og indeværende år+1) før auto-udfyldning sker.
 
-Den aktive tekst ligger både i:
+Kilder brugt til folkepensionsalder-tabellen:
+- https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32
+- https://www.borger.dk/pension-og-efterloen/Folkepension-oversigt/foer-du-gaar-paa-folkepension
+- https://star.dk/ydelser/pension-og-efterloen/folkepension-tidlig-pension-foertidspension-og-seniorpension/folkepension/folkepensionsalderen-nu-og-fremover/
 
-- `calculator-texts.json`
-- fallback-JSON i `index.html`
+Verificeret med Playwright (headless browser, ikke kun kodelæsning): alle testede fødselsår gav korrekt pensionsalder, beregningen matcher stadig Excel-facit, og fold-ud/bug-fix er bekræftet i praksis.
 
-De to skal holdes ens. Det er gjort for at beregneren stadig virker, hvis embedmiljøet ikke kan hente den eksterne JSON-fil.
+### Kendt opmærksomhedspunkt
 
-## Kendte opmærksomhedspunkter
+Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
 
-- `fetch('calculator-texts.json')` virker på GitHub Pages, hvor JSON-filen ligger ved siden af `index.html`.
-- Hvis beregneren embeddes direkte i CUE/Politiken, kan den relative JSON-hentning fejle afhængigt af embedmiljøet. I så fald bruges fallback-teksten i `index.html`.
-- Beregningen ser bort fra kirkeskat, fradrag og individuelle kommuneskatter.
-- Kommuneskat bruges kun i forklaringsteksten om marginalskat, ikke i selve lettelsesberegningen.
-- CSS-klasser og CSS-variabler er namespacet med `skb-` og `-pol-vibe` for at undgå konflikt med Politikens styles.
+---
 
-## Seneste status
+## Filer i repoet
 
-- Toptopskatten er bekræftet afskaffet og indgår i beregningen.
-- Det lille "Skat"-mærke over titlen er fjernet, fordi det ikke matchede designet.
-- Intro- og inputtekster er strammet op for at undgå gentagelse med artiklens underrubrik.
-- Repoet er public, og GitHub Pages er aktiveret.
+- `index.html` — Skattelettelsesberegner
+- `calculator-texts.json` — redaktionelle tekster til Skattelettelsesberegner
+- `pfa-pensionsberegner.html` — PFA-pensionsberegner
+- `PFA-formelaudit.md` — formelaudit + kontrolregnestykke for PFA-beregneren
+- `Hvad koster det.xlsx` — kildearket bag PFA-formlerne (untracked lokalt, ikke committet)
+- `pensionsberegner desktop.html` — tidligere pensionsberegner, brugt som inspiration
+
+## Generelle opmærksomhedspunkter
+
+- Ingen af beregnerne medregner kirkeskat, personlige fradrag eller kommuneskatteforskelle.
+- CSS-klasser og -variabler er namespacet (`skb-` / `pfa-calc-`) for at undgå konflikt med Politikens styles ved embed.
