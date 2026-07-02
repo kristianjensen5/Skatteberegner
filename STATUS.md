@@ -101,6 +101,14 @@ Resultat, verificeret med Playwright ved faktisk 9:16-højde (bredde × 16/9):
 
 320px (meget sjælden skærmstørrelse) overskrider stadig med ca. 66px — samme kendte, lille edge case som før.
 
+### Rettet 2. juli 2026 — felter flugtede ikke på mobil
+
+Kristian testede på rigtig mobil og fandt at inputboksene i række 2 (Pensionsalder / År tidligere på pension) ikke flugtede vandret. Årsag: "Fødselsår" har en 2-linjers hjælpetekst, "Nuværende alder" har ingen — CSS Grid's standard (`align-items: stretch`) strakte derfor "Nuværende alder"-feltet til samme højde som "Fødselsår", hvilket skubbede næste række skævt. Samme problem fandtes (mindre synligt) mellem "Årlig bruttoløn" og "Eksisterende depot".
+
+Fix: `align-items: start` tilføjet til `.pfa-calc__grid` — hvert felt bruger nu sin egen naturlige højde i stedet for at blive strukket til rækkens højeste nabo. Verificeret med Playwright: alle inputbokse i alle rækker har nu identisk `top`- og `height`-position.
+
+Redaktørens spørgsmål om hvorfor både Fødselsår og Nuværende alder findes som felter blev besvaret og accepteret — de dækker to forskellige ting (lovfastsat pensionsalder-opslag vs. regnestykkets tidshorisont), og indholdet forbliver som det er.
+
 ### Kendt opmærksomhedspunkt
 
 Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
