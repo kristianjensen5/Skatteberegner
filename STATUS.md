@@ -82,6 +82,25 @@ JavaScript'en brugte `document.getElementById(...)` og `document.querySelectorAl
 
 **Vigtig nuance opdaget under testen:** Da beregneren leveres i en iframe (vibecode-elementet), er hver instans allerede isoleret i sin egen `document` — to iframes kan aldrig kollidere med hinanden, uanset denne fix. Rettelsen er stadig værd at have som god praksis (beskytter hvis filen nogensinde genbruges som inline-embed uden iframe), men selve "to vibecode-elementer på samme artikel"-scenariet var aldrig i fare for ID-kollision.
 
+### Rettet 2. juli 2026 — fylder nu boksen bedre ved bredere iframe-mål
+
+Kristian testede i den faktiske CMS-kontekst og opdagede at vibecode-elementet reelt kan blive meget bredere end de 550-620px, der blev testet ved manuel browser-resize (op mod 900px+ bred, altså op mod 1600px høj ved låst 9:16). Ved den bredde fyldte det forrige kompakte design kun ca. 40 % af boksen — resten var tomt luft over/under, fordi skrifter/mellemrum havde et lavt loft (`clamp()`-makс-værdier) der stoppede dem i at vokse med pladsen.
+
+Rettet:
+- Feltgrid ændret fra 3 til 2 kolonner (mindre "opremsnings"-følelse, matcher Kristians feedback om at 3 kolonner virkede uoverskueligt).
+- Alle `clamp()`-lofter hævet markant, så skrift/mellemrum/padding fortsætter med at vokse med bredden i stedet for at stoppe tidligt. Bunden (minimumsværdierne, der sikrer ingen scroll ved smalle mobilbredder) er urørt.
+
+Resultat, verificeret med Playwright ved faktisk 9:16-højde (bredde × 16/9):
+
+| Bredde | Boks-højde | Kort-højde | Fyldningsgrad |
+|---|---|---|---|
+| 360px | 640px | 632px | 99 % |
+| 480px | 853px | 716px | 84 % |
+| 620px | 1102px | 904px | 82 % |
+| 900px | 1600px | 1242px | 78 % |
+
+320px (meget sjælden skærmstørrelse) overskrider stadig med ca. 66px — samme kendte, lille edge case som før.
+
 ### Kendt opmærksomhedspunkt
 
 Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
