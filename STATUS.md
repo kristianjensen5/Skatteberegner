@@ -1,6 +1,6 @@
 # Status: Skatteberegner (repo)
 
-Opdateret: 2. juli 2026
+Opdateret: 2. juli 2026 (baggrundsfarve)
 
 ## Formål
 
@@ -112,6 +112,12 @@ Redaktørens spørgsmål om hvorfor både Fødselsår og Nuværende alder findes
 ### Kendt opmærksomhedspunkt
 
 Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
+
+---
+
+## Rettet 2. juli 2026 — baggrundsfarve på begge beregnere
+
+Body-baggrunden var uspecificeret (browser-default) i begge filer. Sat til `#fbfaf7` i både `index.html` (Skattelettelsesberegner) og `pfa-pensionsberegner.html` — den ubrugte CSS-variabel `--skb-color-bg-pol-vibe` i `index.html` (var defineret, men aldrig koblet til noget) er samtidig rettet til samme værdi og faktisk koblet til `body`. `pensionsberegner desktop.html` (gammel inspirationsfil, ikke live) er ikke rørt. Verificeret med Playwright: `getComputedStyle(body).backgroundColor` = `rgb(251, 250, 247)` på begge filer.
 
 ---
 
