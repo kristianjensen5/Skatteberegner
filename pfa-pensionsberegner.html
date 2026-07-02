@@ -405,37 +405,39 @@ body {
 
     <script>
 (function () {
-  const form = document.getElementById('pfa-calc-form');
-  const errorNode = document.getElementById('pfa-error');
-  const exampleButton = document.getElementById('pfa-example');
+  const root = (document.currentScript && document.currentScript.previousElementSibling) || document;
+
+  const form = root.querySelector('#pfa-calc-form');
+  const errorNode = root.querySelector('#pfa-error');
+  const exampleButton = root.querySelector('#pfa-example');
 
   const fields = {
-    currentAge: document.getElementById('pfa-current-age'),
-    birthYear: document.getElementById('pfa-birth-year'),
-    retirementAge: document.getElementById('pfa-retirement-age'),
-    yearsEarly: document.getElementById('pfa-years-early'),
-    annualGrossSalary: document.getElementById('pfa-salary'),
-    existingDepot: document.getElementById('pfa-depot'),
-    contributionRate: document.getElementById('pfa-contribution'),
-    insuranceCoverageRate: document.getElementById('pfa-insurance'),
-    returnAfterPal: document.getElementById('pfa-return'),
-    inflation: document.getElementById('pfa-inflation'),
-    payoutInterestRate: document.getElementById('pfa-interest'),
-    payoutYears: document.getElementById('pfa-payout-years'),
-    voluntaryContributionTaxValue: document.getElementById('pfa-tax-value')
+    currentAge: root.querySelector('#pfa-current-age'),
+    birthYear: root.querySelector('#pfa-birth-year'),
+    retirementAge: root.querySelector('#pfa-retirement-age'),
+    yearsEarly: root.querySelector('#pfa-years-early'),
+    annualGrossSalary: root.querySelector('#pfa-salary'),
+    existingDepot: root.querySelector('#pfa-depot'),
+    contributionRate: root.querySelector('#pfa-contribution'),
+    insuranceCoverageRate: root.querySelector('#pfa-insurance'),
+    returnAfterPal: root.querySelector('#pfa-return'),
+    inflation: root.querySelector('#pfa-inflation'),
+    payoutInterestRate: root.querySelector('#pfa-interest'),
+    payoutYears: root.querySelector('#pfa-payout-years'),
+    voluntaryContributionTaxValue: root.querySelector('#pfa-tax-value')
   };
 
   const outputNodes = {
-    extraPerMonthBeforeTax: document.getElementById('pfa-extra-before-tax'),
-    netEffectPerMonthAfterTax: document.getElementById('pfa-net-after-tax'),
-    normalFinalDepot: document.getElementById('pfa-normal-depot'),
-    earlyFinalDepot: document.getElementById('pfa-early-depot'),
-    normalAnnualPensionBeforeTax: document.getElementById('pfa-normal-pension'),
-    earlyAnnualPensionBeforeTax: document.getElementById('pfa-early-pension'),
-    annualPensionDropBeforeTax: document.getElementById('pfa-pension-drop'),
-    missingCapital: document.getElementById('pfa-missing-capital'),
-    requiredExtraAnnualContribution: document.getElementById('pfa-required-extra'),
-    extraContributionPctOfSalary: document.getElementById('pfa-extra-percent')
+    extraPerMonthBeforeTax: root.querySelector('#pfa-extra-before-tax'),
+    netEffectPerMonthAfterTax: root.querySelector('#pfa-net-after-tax'),
+    normalFinalDepot: root.querySelector('#pfa-normal-depot'),
+    earlyFinalDepot: root.querySelector('#pfa-early-depot'),
+    normalAnnualPensionBeforeTax: root.querySelector('#pfa-normal-pension'),
+    earlyAnnualPensionBeforeTax: root.querySelector('#pfa-early-pension'),
+    annualPensionDropBeforeTax: root.querySelector('#pfa-pension-drop'),
+    missingCapital: root.querySelector('#pfa-missing-capital'),
+    requiredExtraAnnualContribution: root.querySelector('#pfa-required-extra'),
+    extraContributionPctOfSalary: root.querySelector('#pfa-extra-percent')
   };
 
   const krFormatter = new Intl.NumberFormat('da-DK', {
@@ -603,7 +605,7 @@ body {
     renderResults(calculateEarlyRetirementCost(input));
   }
 
-  document.querySelectorAll('[data-format=amount]').forEach((input) => {
+  root.querySelectorAll('[data-format=amount]').forEach((input) => {
     input.addEventListener('input', () => {
       input.value = formatInputAmount(input.value);
     });

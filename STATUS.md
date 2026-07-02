@@ -76,10 +76,15 @@ Kilder brugt til folkepensionsalder-tabellen:
 
 Verificeret med Playwright (headless browser, ikke kun kodelæsning): alle testede fødselsår gav korrekt pensionsalder, beregningen matcher stadig Excel-facit, og fold-ud/bug-fix er bekræftet i praksis.
 
-### Kendte problemer — SKAL løses før CMS-publicering på politiken.dk
+### Rettet 2. juli 2026 — dobbelt-embed-sikkerhed
 
-- **Ikke sikker for dobbelt-embed endnu.** JavaScript'en bruger `document.getElementById(...)` og `document.querySelectorAll(...)` globalt i stedet for at slå elementer op inden for widgettens egen wrapper (`root.querySelector(...)`). Per Politikens CMS-isolationsregler (`02_brand.md`) skal alle widgets kunne indlejres to gange på samme artikelside uden at gå i stykker — det er IKKE testet endnu, og med de nuværende globale ID-opslag vil to instanser på samme side sandsynligvis kun opdatere den første. Skal rettes og testes med to instanser på en testside, før den sendes til CUE.
-- Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
+JavaScript'en brugte `document.getElementById(...)` og `document.querySelectorAll(...)` globalt. Rettet til at slå elementer op via `document.currentScript.previousElementSibling` som instansens egen `root`, og alle opslag går nu gennem `root.querySelector(...)`. Testet ved at indlejre to komplette instanser på samme testside (samme mønster som Dronningen-referencen): forskelligt fødselsår, forskellig løn og separate fold-outs i hver instans forblev fuldstændig uafhængige, ingen JS-fejl.
+
+**Vigtig nuance opdaget under testen:** Da beregneren leveres i en iframe (vibecode-elementet), er hver instans allerede isoleret i sin egen `document` — to iframes kan aldrig kollidere med hinanden, uanset denne fix. Rettelsen er stadig værd at have som god praksis (beskytter hvis filen nogensinde genbruges som inline-embed uden iframe), men selve "to vibecode-elementer på samme artikel"-scenariet var aldrig i fare for ID-kollision.
+
+### Kendt opmærksomhedspunkt
+
+Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
 
 ---
 
