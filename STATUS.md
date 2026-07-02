@@ -7,7 +7,7 @@ Opdateret: 1. juli 2026
 Repoet indeholder to selvstændige beregnere til artikler:
 
 1. **Skattelettelsesberegner** (`index.html`) — færdig, deployet.
-2. **PFA-pensionsberegner** (`pfa-pensionsberegner.html`) — "Hvad koster det at gå tidligere på pension?". Under udvikling, endnu ikke linket separat i en artikel.
+2. **PFA-pensionsberegner** (`pfa-pensionsberegner.html`) — "Hvad koster det at gå tidligere på pension?". Under udvikling. **Skal publiceres på politiken.dk (CUE)**, når den er klar — ikke kun leve på GitHub Pages.
 
 Begge er self-contained HTML-filer (CSS + JS inline) og deployes via GitHub Pages fra samme repo.
 
@@ -61,6 +61,8 @@ Fødselsår, nuværende alder, pensionsalder, år tidligere på pension, årlig 
 - **"Skatteværdien" forklaret i klartekst:** både i resultatkortets metatekst og i den udvidede forklaring — det er skattefradraget man får ved at indbetale ekstra til pension.
 - **"Sådan regner vi" er nu en fold-ud** (`<details>`), ligesom "Forudsætninger", så siden ikke virker uoverskuelig ved første blik.
 - **Bug fundet og rettet under verificering:** ugyldigt eller tomt input i Fødselsår-feltet satte tidligere stille Pensionsalder til 65 i baggrunden (fordi `Number('')` parser til 0). Rettet med et sanity-tjek (år skal være mellem 1900 og indeværende år+1) før auto-udfyldning sker.
+- **Fødselsår udfylder nu også "Nuværende alder"** (indeværende år minus fødselsår), ikke kun Pensionsalder — begge felter forbliver redigerbare. Rækkefølgen i formularen er ændret til Fødselsår → Nuværende alder → Pensionsalder, så det er tydeligt at fødselsåret styrer de to andre.
+- **`Hvad koster det.xlsx` er lagt i `.gitignore`** efter aftale — kildearket skal kun ligge lokalt, ikke committes til det offentlige repo.
 
 Kilder brugt til folkepensionsalder-tabellen:
 - https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32
@@ -69,9 +71,10 @@ Kilder brugt til folkepensionsalder-tabellen:
 
 Verificeret med Playwright (headless browser, ikke kun kodelæsning): alle testede fødselsår gav korrekt pensionsalder, beregningen matcher stadig Excel-facit, og fold-ud/bug-fix er bekræftet i praksis.
 
-### Kendt opmærksomhedspunkt
+### Kendte problemer — SKAL løses før CMS-publicering på politiken.dk
 
-Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
+- **Ikke sikker for dobbelt-embed endnu.** JavaScript'en bruger `document.getElementById(...)` og `document.querySelectorAll(...)` globalt i stedet for at slå elementer op inden for widgettens egen wrapper (`root.querySelector(...)`). Per Politikens CMS-isolationsregler (`02_brand.md`) skal alle widgets kunne indlejres to gange på samme artikelside uden at gå i stykker — det er IKKE testet endnu, og med de nuværende globale ID-opslag vil to instanser på samme side sandsynligvis kun opdatere den første. Skal rettes og testes med to instanser på en testside, før den sendes til CUE.
+- Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
 
 ---
 

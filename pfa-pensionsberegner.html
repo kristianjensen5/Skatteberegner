@@ -299,14 +299,15 @@
         <form id="pfa-calc-form" class="pfa-calc__form" novalidate>
           <div class="pfa-calc__grid">
             <div class="pfa-calc__field">
-              <label class="pfa-calc__label" for="pfa-current-age">Nuværende alder</label>
-              <input id="pfa-current-age" class="pfa-calc__input" type="text" inputmode="decimal" value="24" />
+              <label class="pfa-calc__label" for="pfa-birth-year">Fødselsår</label>
+              <input id="pfa-birth-year" class="pfa-calc__input" type="text" inputmode="numeric" value="2002" />
+              <p class="pfa-calc__hint">Udfylder automatisk alder og folkepensionsalder. <a href="https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32" target="_blank" rel="noopener">Tjek din egen på borger.dk</a>.</p>
             </div>
 
             <div class="pfa-calc__field">
-              <label class="pfa-calc__label" for="pfa-birth-year">Fødselsår</label>
-              <input id="pfa-birth-year" class="pfa-calc__input" type="text" inputmode="numeric" value="2002" />
-              <p class="pfa-calc__hint">Vi udfylder automatisk din folkepensionsalder. <a href="https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32" target="_blank" rel="noopener">Tjek din egen på borger.dk</a>.</p>
+              <label class="pfa-calc__label" for="pfa-current-age">Nuværende alder</label>
+              <input id="pfa-current-age" class="pfa-calc__input" type="text" inputmode="decimal" value="24" />
+              <p class="pfa-calc__hint">Udfyldt automatisk ud fra fødselsåret - ret gerne selv.</p>
             </div>
 
             <div class="pfa-calc__field">
@@ -630,11 +631,12 @@
     });
   });
 
-  if (fields.birthYear && fields.retirementAge) {
+  if (fields.birthYear && fields.retirementAge && fields.currentAge) {
     fields.birthYear.addEventListener('input', () => {
       const birthYear = parseDanishNumber(fields.birthYear.value);
       const currentYear = new Date().getFullYear();
       if (!Number.isFinite(birthYear) || birthYear < 1900 || birthYear > currentYear + 1) return;
+      fields.currentAge.value = String(currentYear - birthYear);
       const age = getOfficialPensionAge(birthYear);
       if (age !== null) fields.retirementAge.value = formatPensionAge(age);
     });
