@@ -19,6 +19,17 @@
   font-style: normal;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  min-height: 100dvh;
+}
+
 .pfa-calc {
   --pfa-calc-color-text-pol-vibe: #1b1b1b;
   --pfa-calc-color-muted-pol-vibe: #5c5751;
@@ -47,13 +58,13 @@
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
   background: var(--pfa-calc-color-surface-pol-vibe);
-  padding: clamp(0.85rem, 2vw, 1.35rem);
+  padding: clamp(0.55rem, 3vw, 1.1rem);
 }
 
 .pfa-calc__header {
   display: grid;
-  gap: 0.45rem;
-  margin-bottom: 1rem;
+  gap: 0.25rem;
+  margin-bottom: 0.55rem;
 }
 
 .pfa-calc__title,
@@ -61,52 +72,52 @@
 .pfa-calc__result-value {
   margin: 0;
   font-family: var(--pfa-calc-font-display-pol-vibe);
-  line-height: 1.1;
+  line-height: 1.12;
 }
 
 .pfa-calc__title {
-  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-size: clamp(1.05rem, 5vw, 1.6rem);
 }
 
 .pfa-calc__intro {
   max-width: 64ch;
   margin: 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  font-size: 0.95rem;
-  line-height: 1.35;
+  font-size: clamp(0.72rem, 2.6vw, 0.88rem);
+  line-height: 1.25;
 }
 
 .pfa-calc__form {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.4rem;
 }
 
 .pfa-calc__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.35rem;
 }
 
 .pfa-calc__field {
   display: grid;
-  gap: 0.3rem;
+  gap: 0.12rem;
 }
 
 .pfa-calc__label {
   font-weight: 800;
-  line-height: 1.25;
-  font-size: 0.95rem;
+  line-height: 1.15;
+  font-size: clamp(0.64rem, 2.4vw, 0.82rem);
 }
 
 .pfa-calc__input {
   width: 100%;
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.52rem 0.65rem;
+  padding: 0.28rem 0.4rem;
   background: #fffdf9;
   color: var(--pfa-calc-color-text-pol-vibe);
   font: inherit;
-  font-size: 0.98rem;
+  font-size: clamp(0.76rem, 2.6vw, 0.92rem);
 }
 
 .pfa-calc__input:focus {
@@ -117,48 +128,50 @@
 .pfa-calc__hint {
   margin: 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  font-size: 0.82rem;
-  line-height: 1.25;
+  font-size: clamp(0.6rem, 2vw, 0.72rem);
+  line-height: 1.15;
 }
 
 .pfa-calc__details {
   border: 1px dashed var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.65rem 0.75rem;
+  padding: 0.35rem 0.5rem;
   background: var(--pfa-calc-color-soft-pol-vibe);
 }
 
 .pfa-calc__summary {
   cursor: pointer;
   font-weight: 800;
+  font-size: clamp(0.72rem, 2.6vw, 0.88rem);
 }
 
 .pfa-calc__details-text {
-  margin: 0.7rem 0 0;
+  margin: 0.4rem 0 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  font-size: 0.88rem;
-  line-height: 1.35;
+  font-size: clamp(0.68rem, 2.4vw, 0.82rem);
+  line-height: 1.25;
 }
 
 .pfa-calc__assumptions {
-  margin-top: 0.7rem;
+  margin-top: 0.4rem;
 }
 
 .pfa-calc__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
+  gap: 0.35rem;
 }
 
 .pfa-calc__button {
-  min-height: 2.8rem;
+  min-height: clamp(1.9rem, 8vw, 2.4rem);
   border: 0;
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.62rem 0.9rem;
+  padding: 0.35rem 0.6rem;
   background: var(--pfa-calc-color-accent-pol-vibe);
   color: #fff;
   cursor: pointer;
   font: inherit;
+  font-size: clamp(0.72rem, 2.6vw, 0.9rem);
   font-weight: 800;
 }
 
@@ -169,70 +182,72 @@
 }
 
 .pfa-calc__error {
-  min-height: 1.2em;
+  min-height: 1em;
   margin: 0;
   color: #a40000;
   font-weight: 800;
+  font-size: clamp(0.68rem, 2.2vw, 0.82rem);
 }
 
 .pfa-calc__results {
   display: grid;
-  gap: 0.8rem;
-  margin-top: 1rem;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
   border-top: 1px solid var(--pfa-calc-color-border-pol-vibe);
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 .pfa-calc__result-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.35rem;
 }
 
 .pfa-calc__result {
-  min-height: 96px;
+  min-height: 60px;
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
-  border-left: 6px solid var(--pfa-calc-color-accent-pol-vibe);
+  border-left: 4px solid var(--pfa-calc-color-accent-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.75rem;
+  padding: 0.4rem 0.5rem;
   background: #fffefb;
 }
 
 .pfa-calc__result-label {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.2rem;
   color: var(--pfa-calc-color-muted-pol-vibe);
   font-weight: 800;
-  line-height: 1.3;
+  line-height: 1.2;
+  font-size: clamp(0.62rem, 2.2vw, 0.78rem);
 }
 
 .pfa-calc__result-value {
-  font-size: clamp(1.25rem, 4vw, 1.8rem);
+  font-size: clamp(0.95rem, 5.5vw, 1.4rem);
 }
 
 .pfa-calc__result-meta {
-  margin: 0.35rem 0 0;
+  margin: 0.2rem 0 0;
   color: var(--pfa-calc-color-muted-pol-vibe);
-  font-size: 0.9rem;
-  line-height: 1.35;
+  font-size: clamp(0.62rem, 2vw, 0.76rem);
+  line-height: 1.2;
 }
 
 .pfa-calc__detail-table {
   border: 1px solid var(--pfa-calc-color-border-pol-vibe);
   border-radius: var(--pfa-calc-radius-pol-vibe);
-  padding: 0.65rem 0.75rem;
+  padding: 0.35rem 0.5rem;
   background: #fffefb;
 }
 
 .pfa-calc__table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: clamp(0.68rem, 2.2vw, 0.85rem);
 }
 
 .pfa-calc__table th,
 .pfa-calc__table td {
   border-bottom: 1px solid var(--pfa-calc-color-border-pol-vibe);
-  padding: 0.55rem 0;
+  padding: 0.28rem 0;
   text-align: left;
   vertical-align: top;
 }
@@ -243,48 +258,13 @@
 }
 
 .pfa-calc__result-explainer {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .pfa-calc__note {
   border-left: 4px solid var(--pfa-calc-color-accent-pol-vibe);
-  padding: 0.65rem 0.8rem;
+  padding: 0.4rem 0.55rem;
   background: var(--pfa-calc-color-soft-pol-vibe);
-}
-
-@media (max-width: 760px) {
-  .pfa-calc {
-    width: 100%;
-    margin: 0;
-  }
-
-  .pfa-calc__panel {
-    border-right: 0;
-    border-left: 0;
-    border-radius: 0;
-    padding: 0.85rem;
-  }
-
-  .pfa-calc__grid,
-  .pfa-calc__result-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .pfa-calc__actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .pfa-calc__button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 420px) {
-  .pfa-calc__result-grid,
-  .pfa-calc__actions {
-    grid-template-columns: 1fr;
-  }
 }
     </style>
   </head>
@@ -293,7 +273,7 @@
       <section class="pfa-calc__panel" aria-labelledby="pfa-calc-title">
         <header class="pfa-calc__header">
           <h1 id="pfa-calc-title" class="pfa-calc__title">Hvad koster det at gå tidligere på pension?</h1>
-          <p class="pfa-calc__intro">Beregneren bruger PFA's formler og viser, hvor meget ekstra du skal spare op om måneden, hvis du vil gå tidligere på pension og stadig få samme årlige pension før skat.</p>
+          <p class="pfa-calc__intro">Beregneren bruger PFA's formler og viser, hvor meget ekstra du skal spare op for at gå tidligere på pension.</p>
         </header>
 
         <form id="pfa-calc-form" class="pfa-calc__form" novalidate>
@@ -301,19 +281,17 @@
             <div class="pfa-calc__field">
               <label class="pfa-calc__label" for="pfa-birth-year">Fødselsår</label>
               <input id="pfa-birth-year" class="pfa-calc__input" type="text" inputmode="numeric" value="2002" />
-              <p class="pfa-calc__hint">Udfylder automatisk alder og folkepensionsalder. <a href="https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32" target="_blank" rel="noopener">Tjek din egen på borger.dk</a>.</p>
+              <p class="pfa-calc__hint">Udfylder alder + pensionsalder. <a href="https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32" target="_blank" rel="noopener">Tjek selv</a>.</p>
             </div>
 
             <div class="pfa-calc__field">
               <label class="pfa-calc__label" for="pfa-current-age">Nuværende alder</label>
               <input id="pfa-current-age" class="pfa-calc__input" type="text" inputmode="decimal" value="24" />
-              <p class="pfa-calc__hint">Udfyldt automatisk ud fra fødselsåret - ret gerne selv.</p>
             </div>
 
             <div class="pfa-calc__field">
               <label class="pfa-calc__label" for="pfa-retirement-age">Pensionsalder</label>
               <input id="pfa-retirement-age" class="pfa-calc__input" type="text" inputmode="decimal" value="70" />
-              <p class="pfa-calc__hint">Udfyldt automatisk ud fra fødselsåret - ret gerne selv.</p>
             </div>
 
             <div class="pfa-calc__field">

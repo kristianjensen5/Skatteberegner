@@ -1,13 +1,16 @@
 # Status: Skatteberegner (repo)
 
-Opdateret: 1. juli 2026
+Opdateret: 2. juli 2026
 
 ## Formål
 
 Repoet indeholder to selvstændige beregnere til artikler:
 
 1. **Skattelettelsesberegner** (`index.html`) — færdig, deployet.
-2. **PFA-pensionsberegner** (`pfa-pensionsberegner.html`) — "Hvad koster det at gå tidligere på pension?". Under udvikling. **Skal publiceres på politiken.dk (CUE)**, når den er klar — ikke kun leve på GitHub Pages.
+2. **PFA-pensionsberegner** (`pfa-pensionsberegner.html`) — "Hvad koster det at gå tidligere på pension?". Under udvikling. **Skal publiceres på politiken.dk** i et "vibecode element" — en iframe med låst 9:16-aspect ratio — når den er klar.
+
+Direkte link til PFA-pensionsberegneren til brug i iframe:
+https://kristianjensen5.github.io/Skatteberegner/pfa-pensionsberegner.html
 
 Begge er self-contained HTML-filer (CSS + JS inline) og deployes via GitHub Pages fra samme repo.
 
@@ -63,6 +66,8 @@ Fødselsår, nuværende alder, pensionsalder, år tidligere på pension, årlig 
 - **Bug fundet og rettet under verificering:** ugyldigt eller tomt input i Fødselsår-feltet satte tidligere stille Pensionsalder til 65 i baggrunden (fordi `Number('')` parser til 0). Rettet med et sanity-tjek (år skal være mellem 1900 og indeværende år+1) før auto-udfyldning sker.
 - **Fødselsår udfylder nu også "Nuværende alder"** (indeværende år minus fødselsår), ikke kun Pensionsalder — begge felter forbliver redigerbare. Rækkefølgen i formularen er ændret til Fødselsår → Nuværende alder → Pensionsalder, så det er tydeligt at fødselsåret styrer de to andre.
 - **`Hvad koster det.xlsx` er lagt i `.gitignore`** efter aftale — kildearket skal kun ligge lokalt, ikke committes til det offentlige repo.
+- **Tilpasset til 9:16-iframe ("vibecode element"):** typografi, mellemrum og padding er skruet markant ned og skalerer med bredden (`clamp()`-værdier bundet til `vw`). Feltgrid er 3 kolonner ved alle bredder (var før 2 kolonner under 760px, hvilket gjorde formularen for høj). Kortet er lodret centreret i boksen via `body { display:flex; align-items:center; min-height:100dvh }`.
+- **Verificeret med Playwright ved den faktiske 9:16-ratio (bredde × 16/9 = højde):** ingen scroll nødvendig fra 360px bredde og opefter (dækker jeres testede 550-620px rigeligt, samt almindelige mobilbredder). Ved 320px (meget gamle/små skærme) er der stadig 48px overflow — ikke dækket, men sjælden skærmstørrelse i dag.
 
 Kilder brugt til folkepensionsalder-tabellen:
 - https://www.borger.dk/Handlingsside?selfserviceId=8557b9eb-947a-48cb-bef2-2f37aa5c9d32
