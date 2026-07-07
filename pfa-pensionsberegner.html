@@ -275,7 +275,7 @@ body {
       <section class="pfa-calc__panel" aria-labelledby="pfa-calc-title">
         <header class="pfa-calc__header">
           <h1 id="pfa-calc-title" class="pfa-calc__title">Hvad koster det at gå tidligere på pension?</h1>
-          <p class="pfa-calc__intro">Beregneren bruger PFA's formler og viser, hvor meget ekstra du skal spare op for at gå tidligere på pension.</p>
+          <p class="pfa-calc__intro">Beregneren bygger på tal fra PFA og viser, hvor meget ekstra du skal indbetale på din pensionsopsparing for at få samme årlige pension før skat.</p>
         </header>
 
         <form id="pfa-calc-form" class="pfa-calc__form" novalidate>
@@ -308,7 +308,7 @@ body {
             </div>
 
             <div class="pfa-calc__field">
-              <label class="pfa-calc__label" for="pfa-depot">Eksisterende depot</label>
+              <label class="pfa-calc__label" for="pfa-depot">Nuværende pensionsopsparing</label>
               <input id="pfa-depot" class="pfa-calc__input" type="text" inputmode="numeric" value="0" data-format="amount" />
             </div>
 
@@ -522,7 +522,7 @@ body {
     if (input.yearsEarly <= 0) return 'Antal år tidligere på pension skal være over 0.';
     if (input.retirementAge - input.currentAge - input.yearsEarly <= 0) return 'Tidlig pension skal stadig ligge efter den nuværende alder.';
     if (input.annualGrossSalary <= 0) return 'Årlig bruttoløn skal være over 0 kr.';
-    if (input.existingDepot < 0) return 'Eksisterende depot kan ikke være negativt.';
+    if (input.existingDepot < 0) return 'Nuværende pensionsopsparing kan ikke være negativ.';
     if (input.payoutYears <= 0) return 'Udbetalingsrater skal være over 0.';
     if (input.contributionRate < 0 || input.insuranceCoverageRate < 0 || input.insuranceCoverageRate >= 1) return 'Tjek indbetalingsprocent og forsikringsdækninger.';
     if (input.voluntaryContributionTaxValue < 0 || input.voluntaryContributionTaxValue >= 1) return 'Skatteværdien skal være mellem 0 og 100 procent.';

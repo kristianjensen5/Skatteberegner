@@ -113,6 +113,12 @@ Redaktørens spørgsmål om hvorfor både Fødselsår og Nuværende alder findes
 
 Pensionsalderen er kun lovfastsat til og med fødselsår 1971 (70 år). For yngre årgange er 70 år et vejledende loft — Folketinget beslutter først eventuelle forhøjelser senest i 2030. Tabellen bør genbesøges hvis loven ændres.
 
+### Rettet 2. juli 2026 — tekstrettelser fra redaktør
+
+- Intro omskrevet: "PFA's formler" → "tal fra PFA", og sætningen gjort mere præcis om hvad man rent faktisk gør ("indbetale på din pensionsopsparing for at få samme årlige pension før skat") i stedet for det mere upræcise "spare op for at gå tidligere på pension".
+- Feltnavnet "Eksisterende depot" ændret til "Nuværende pensionsopsparing" (mere læserforståeligt, mindre finans-jargon). Fejlbeskeden for feltet er rettet til samme term for konsistens.
+- Verificeret med Playwright: ny tekst vises korrekt, beregningen er uændret (262,43 kr. / 149,69 kr. matcher stadig Excel-facit), ingen layout-overflow.
+
 ---
 
 ## Rettet 2. juli 2026 — baggrundsfarve på begge beregnere
