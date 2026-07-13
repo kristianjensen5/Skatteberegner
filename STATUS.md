@@ -1,6 +1,42 @@
 # Status: Skatteberegner (repo)
 
-Opdateret: 2. juli 2026 (baggrundsfarve)
+Opdateret: 13. juli 2026 (midlertidig Cloudflare-mirror pga. GitHub-konto spærret)
+
+## ⚠️ AKUT: GitHub-kontoen kristianjensen5 er spærret
+
+**13. juli 2026:** GitHub viser "Access to your account has been suspended due to
+a violation of our Terms of Service" ved login. Bekræftet virkede stadig
+12. juli kl. 16:52 (sidste succesfulde push, Trumpspillet). Rammer HELE kontoen —
+alle repos og alle GitHub Pages-sites er utilgængelige, ikke kun dette projekt.
+Kristian har kontaktet/skal kontakte GitHub Support for at anke. Indtil det er
+løst: **GitHub Pages-linket nedenfor virker ikke** — brug Cloudflare-mirroret i
+stedet (se næste afsnit). Denne advarsel bør fjernes igen når GitHub-adgangen
+er genoprettet, og der er pushet normalt til `main` igen.
+
+## Midlertidig Cloudflare-mirror (mens GitHub er nede)
+
+Deployet direkte fra lokale filer, uden om GitHub, til et **nyt** Cloudflare
+Pages-projekt (se opdagelse nedenfor for hvorfor det er nyt og ikke det gamle):
+
+https://skatteberegner.pages.dev/index.html
+https://skatteberegner.pages.dev/pfa-pensionsberegner.html
+
+Indeholder KUN `index.html`, `pfa-pensionsberegner.html` og
+`calculator-texts.json` — ikke resten af repoet. Opdateres ikke automatisk;
+skal redeployes manuelt (`npx wrangler pages deploy <mappe> --project-name
+skatteberegner --branch main --commit-dirty=true`) hvis der laves flere
+ændringer mens GitHub er nede.
+
+**Opdagelse undervejs:** Der fandtes allerede et Cloudflare-projekt med samme
+navn fra en tidligere session (ikke dokumenteret her). Det var deployet som
+**hele repo-mappen**, hvilket i en uge har eksponeret `Hvad koster det.xlsx`
+(den fil Kristian eksplicit bad om aldrig måtte være offentlig),
+`STATUS.md`, `PFA-formelaudit.md` og hele `.git`-mappen offentligt på
+`skatteberegner.pages.dev`. Det gamle projekt er slettet fuldstændigt
+(fjerner også alle historiske deployment-specifikke URL'er), og et helt nyt,
+rent projekt er oprettet i stedet. Verificeret efter sletning: ingen af de
+følsomme filer er tilgængelige længere, hverken på hoveddomænet eller de
+gamle deployment-URL'er.
 
 ## Formål
 
@@ -9,12 +45,13 @@ Repoet indeholder to selvstændige beregnere til artikler:
 1. **Skattelettelsesberegner** (`index.html`) — færdig, deployet.
 2. **PFA-pensionsberegner** (`pfa-pensionsberegner.html`) — "Hvad koster det at gå tidligere på pension?". Under udvikling. **Skal publiceres på politiken.dk** i et "vibecode element" — en iframe med låst 9:16-aspect ratio — når den er klar.
 
-Direkte link til PFA-pensionsberegneren til brug i iframe:
+Direkte link til PFA-pensionsberegneren til brug i iframe (GitHub Pages —
+**virker ikke pt., se AKUT-afsnit øverst**):
 https://kristianjensen5.github.io/Skatteberegner/pfa-pensionsberegner.html
 
-Begge er self-contained HTML-filer (CSS + JS inline) og deployes via GitHub Pages fra samme repo.
+Begge er self-contained HTML-filer (CSS + JS inline) og deployes normalt via GitHub Pages fra samme repo.
 
-Live-version (repo-rod):
+Live-version (repo-rod, GitHub Pages — nede pt.):
 https://kristianjensen5.github.io/Skatteberegner/
 
 GitHub-repo:
